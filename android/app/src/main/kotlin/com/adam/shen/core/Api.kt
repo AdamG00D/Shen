@@ -673,8 +673,16 @@ class Api(
         return null
     }
 
+    /** [a] فيه `sig` = توقيع منفصل، أو `out` = ملف موقّع جوه نفسه (gpg --sign) والمحتوى بيتكتب في out. */
     private fun verifyFile(a: Map<String, Any?>): List<Map<String, Any?>> {
         val profile = a.str("profile")
+        if (a.strOrNull("sig") == null) {
+            var res: List<SigInfo> = emptyList()
+            withOutput(a.str("out")) { o ->
+                streams.open(a.str("in")).use { i -> res = pgp.verify(i, o, null, knownCerts(profile)) }
+            }
+            return describe(profile, res)
+        }
         val sig = streams.open(a.str("sig")).use { it.readNBytes(MAX_IMPORT + 1) }
         if (sig.size > MAX_IMPORT) throw CoreError(Err.TOO_LARGE)
         val res = streams.open(a.str("in")).use { i -> pgp.verify(i, null, ByteArrayInputStream(sig), knownCerts(profile)) }

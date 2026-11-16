@@ -95,6 +95,8 @@ dependencies {
     // البصمة مربوطة بمفتاح الـ Keystore (CryptoObject)
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("androidx.fragment:fragment-ktx:1.8.9")
+    // مسح QR (بصمة المفتاح) — ZXing، مفتوحة بالكامل من غير خدمات جوجل
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 
     testImplementation("junit:junit:4.13.2")
     // org.json جوه أندرويد بس — للتيستات على الـ JVM

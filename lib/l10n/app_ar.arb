@@ -1,0 +1,699 @@
+{
+  "@@locale": "ar",
+  "appName": "شِن",
+  "tagline": "مفاتيح PGP بتاعتك في الحفظ والصون — من غير إنترنت.",
+  "errUnknown": "حصلت مشكلة. جرّب تاني.",
+  "errWrongPassword": "كلمة السر غلط.",
+  "errLockedOut": "محاولات غلط كتير.",
+  "errLocked": "التطبيق اتقفل. افتحه تاني.",
+  "errProfileLocked": "البروفايل ده مقفول بكلمة سر. افتحه الأول.",
+  "errProfileLockedNamed": "افتح بروفايل «{name}» الأول وبعدين جرّب تاني.",
+  "@errProfileLockedNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "errKeystore": "مفتاح الجهاز مش موجود (يمكن البيانات اتنقلت من موبايل تاني). البيانات دي مش هتتفتح على الموبايل ده.",
+  "errBadData": "البيانات دي مش OpenPGP أو بايظة.",
+  "errIntegrity": "الرسالة دي اتلعب فيها أو بايظة — اترفضت ومحدش اتحفظ منها حاجة.",
+  "errNoKey": "مفيش مفتاح عندك يفك الرسالة دي.",
+  "errCannotEncrypt": "مفتاح واحد من المستلمين منتهي أو ملغي أو مينفعش يشفّر.",
+  "errCannotSign": "المفتاح ده مينفعش يوقّع (منتهي أو ملغي).",
+  "errNotFound": "مش موجود.",
+  "errExists": "موجود قبل كده.",
+  "errTooLarge": "كبير زيادة عن اللزوم.",
+  "errInvalid": "في بيانات ناقصة أو غلط.",
+  "errEncryptedNotSigned": "دي رسالة متشفّرة — استخدم «فك / تحقق».",
+  "errNotBackup": "الملف ده مش نسخة احتياطية من شِن.",
+  "errCancelled": "اتلغت.",
+  "errIo": "مش قادر يقرا أو يكتب الملف.",
+  "errBioInvalidated": "البصمات اللي على الموبايل اتغيّرت، فالفتح بالبصمة اتقفل. افتح بكلمة السر وفعّله تاني.",
+  "errBioUnavailable": "الفتح بالبصمة مش متفعّل.",
+  "tryAgainIn": "جرّب تاني بعد {time}.",
+  "@tryAgainIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "seconds": "{count} ثانية",
+  "@seconds": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutes": "{count} دقيقة",
+  "@minutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "colorIndigo": "نيلي",
+  "colorTeal": "فيروزي",
+  "colorEmerald": "زمردي",
+  "colorCoral": "مرجاني",
+  "colorAmber": "كهرماني",
+  "colorSky": "سماوي",
+  "colorPink": "وردي",
+  "colorGraphite": "رصاصي",
+  "cancel": "إلغاء",
+  "confirm": "تأكيد",
+  "ok": "تمام",
+  "hide": "إخفاء",
+  "show": "إظهار",
+  "save": "حفظ",
+  "copy": "نسخ",
+  "copied": "اتنسخ",
+  "close": "قفل",
+  "share": "مشاركة",
+  "saveFile": "حفظ كملف",
+  "saved": "اتحفظ",
+  "search": "بحث",
+  "done": "تم",
+  "delete": "حذف",
+  "deleted": "اتحذف",
+  "add": "إضافة",
+  "paste": "لصق",
+  "clear": "مسح",
+  "open": "فتح",
+  "create": "إنشاء",
+  "export": "تصدير",
+  "import": "استيراد",
+  "current": "الحالي",
+  "iUnderstand": "فاهم وعايز أكمّل",
+  "copiedSecure": "اتنسخ — وهيتمسح من الحافظة بعد {count} ثانية",
+  "@copiedSecure": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "showQr": "عرض QR",
+  "invalid": "مش صالح",
+  "strengthVeryWeak": "ضعيفة جداً",
+  "strengthWeak": "ضعيفة",
+  "strengthOk": "مقبولة",
+  "strengthGood": "كويسة",
+  "strengthStrong": "قوية",
+  "keyPassphraseTitle": "كلمة سر المفتاح",
+  "keyPassphraseFor": "اكتب كلمة سر المفتاح:\n{name}",
+  "@keyPassphraseFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "keyPassphrase": "كلمة سر المفتاح",
+  "masterPasswordTitle": "كلمة السر الرئيسية",
+  "masterPassword": "كلمة السر الرئيسية",
+  "passwordTooShort": "كلمة السر لازم تكون {count} حروف على الأقل.",
+  "@passwordTooShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "passwordsDontMatch": "كلمتين السر مش زي بعض.",
+  "newPassword": "كلمة السر الجديدة",
+  "confirmPassword": "اكتبها تاني للتأكيد",
+  "revoked": "ملغي",
+  "expired": "منتهي",
+  "expiresSoon": "هيخلص قريب",
+  "defaultKey": "الافتراضي",
+  "noPassphrase": "من غير كلمة سر",
+  "verified": "متأكد منه",
+  "allProfiles": "كل البروفايلات",
+  "sigGoodVerified": "توقيع سليم من {name}",
+  "@sigGoodVerified": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "sigByMe": "التوقيع ده بمفتاح من مفاتيحك.",
+  "sigGoodVerifiedBody": "الرسالة متغيّرتش، وانت متأكد إن المفتاح ده بتاع الشخص ده.",
+  "sigGoodUnverified": "التوقيع سليم من {name} — بس لسه متأكدتش من المفتاح",
+  "@sigGoodUnverified": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "sigGoodUnverifiedBody": "الرسالة متغيّرتش، بس لسه متأكدتش إن المفتاح ده فعلاً بتاع الشخص ده. قارن البصمة معاه (وش لوش أو بالـ QR).",
+  "sigUnknown": "موقّعة بمفتاح مش عندك",
+  "sigUnknownBody": "مش هنقدر نتأكد من التوقيع غير لما تضيف المفتاح العام بتاع اللي بعت ({keyId}).",
+  "@sigUnknownBody": {
+    "placeholders": {
+      "keyId": {
+        "type": "String"
+      }
+    }
+  },
+  "sigBad": "التوقيع غلط!",
+  "sigBadBody": "الرسالة اتغيّرت بعد ما اتوقّعت، أو التوقيع مزوّر. متثقش في المحتوى ده.",
+  "signedOn": "اتوقّعت يوم {date}",
+  "@signedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notSigned": "الرسالة دي مش موقّعة — مش هنعرف مين اللي بعتها.",
+  "noRecipients": "مفيش جهات اتصال تقدر تشفّر لها. ضيف مفاتيح الناس من «جهات الاتصال».",
+  "contacts": "جهات الاتصال",
+  "myKeys": "مفاتيحي",
+  "hiddenUnusable": "{count} مفتاح متخبّي لأنه منتهي أو ملغي.",
+  "@hiddenUnusable": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectedCount": "تم ({count})",
+  "@selectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseSigningKey": "اختار المفتاح اللي هتوقّع بيه",
+  "defaultProfileName": "شخصي",
+  "nameRequired": "اكتب اسم.",
+  "introOffline": "كل حاجة على موبايلك بس: مفيش إنترنت ولا حساب ولا سيرفر.",
+  "introProfiles": "بروفايلات منفصلة (شخصي، شغل...) كل واحد بمفاتيحه وجهات اتصاله.",
+  "introStandard": "OpenPGP قياسي: بيتفاهم مع كيلوباترا وgpg وThunderbird وأي برنامج تاني.",
+  "setupTitle": "يلا نبدأ",
+  "firstProfileName": "اسم أول بروفايل",
+  "masterPasswordWarning": "كلمة السر الرئيسية بتقفل التطبيق كله. لو نسيتها مفيش أي طريقة ترجّع بيها البيانات — فاختار حاجة تفتكرها، وخد نسخة احتياطية من الإعدادات.",
+  "createVault": "إنشاء",
+  "bioTitle": "افتح شِن",
+  "bioSubtitle": "بصمتك بتفك مفتاح الخزنة",
+  "usePassword": "بكلمة السر",
+  "locked": "شِن مقفول",
+  "lockedHint": "اكتب كلمة السر الرئيسية عشان تفتح.",
+  "unlock": "فتح",
+  "unlockWithBio": "الفتح بالبصمة",
+  "lockNow": "قفل دلوقتي",
+  "tools": "الأدوات",
+  "settings": "الإعدادات",
+  "profileLockedTitle": "بروفايل «{name}» مقفول",
+  "@profileLockedTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profileLockedBody": "البروفايل ده ليه كلمة سر لوحده. افتحه عشان تشوف مفاتيحه وجهات اتصاله.",
+  "unlockProfile": "فتح «{name}»",
+  "@unlockProfile": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profilePassword": "كلمة سر البروفايل",
+  "profiles": "البروفايلات",
+  "profileCounts": "مفاتيح: {keys} · جهات اتصال: {contacts}",
+  "@profileCounts": {
+    "placeholders": {
+      "keys": {
+        "type": "int"
+      },
+      "contacts": {
+        "type": "int"
+      }
+    }
+  },
+  "profileLockedShort": "مقفول",
+  "manageProfiles": "إدارة البروفايلات",
+  "newKey": "مفتاح جديد",
+  "noKeysTitle": "لسه معندكش مفاتيح",
+  "noKeysBody": "اعمل مفتاح جديد عشان الناس تقدر تبعتلك رسايل متشفّرة وتتأكد من توقيعك، أو استورد مفتاح عندك.",
+  "importKey": "استيراد مفتاح",
+  "myKeysCount": "مفاتيحي ({count})",
+  "@myKeysCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nameOrEmailRequired": "اكتب اسم أو إيميل على الأقل.",
+  "invalidEmail": "الإيميل ده مش مكتوب صح.",
+  "invalidCharacters": "متستخدمش < > ( ) في الاسم أو التعليق.",
+  "keyCreatedTitle": "المفتاح جاهز",
+  "keyCreatedBody": "دلوقتي:\n• شارك المفتاح العام مع الناس عشان يقدروا يشفّرولك.\n• خد نسخة احتياطية (الإعدادات ← النسخ الاحتياطي) عشان لو الموبايل ضاع.\n• اتعملت شهادة إلغاء لوحدها — احفظها في مكان آمن.",
+  "newKeyIntro": "المفتاح ليه جزئين: جزء عام بتديه للناس، وجزء سري بيفضل على موبايلك ومحمي بكلمة سر.",
+  "name": "الاسم",
+  "emailOptional": "الإيميل (اختياري)",
+  "commentOptional": "تعليق (اختياري)",
+  "commentHelp": "مثلاً: شغل — بيظهر جنب اسمك",
+  "keyPassphraseHelp": "بتحمي الجزء السري حتى لو حد خد نسخة منه. هتطلبها وانت بتفك أو بتوقّع.",
+  "noPassphraseOption": "من غير كلمة سر",
+  "noPassphraseWarning": "مش منصوح بيه: أي حد معاه نسخة من المفتاح يقدر يستخدمه.",
+  "expiry": "الصلاحية",
+  "never": "مبيخلصش",
+  "yearsCount": "{count} سنة",
+  "@yearsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "expiryHelp": "لو ضاع منك المفتاح، الصلاحية بتخلّيه يبطل لوحده. وتقدر تمدّها في أي وقت.",
+  "advanced": "متقدم",
+  "algoCv25519": "Ed25519 / X25519 (منصوح بيه)",
+  "algoCv25519Help": "حديث وسريع وشغال مع gpg وكيلوباترا وأي برنامج.",
+  "algoRsa": "RSA 4096",
+  "algoRsaHelp": "للأنظمة القديمة اللي مبتفهمش Ed25519. أبطأ وأكبر.",
+  "algoV6": "OpenPGP v6 (RFC 9580)",
+  "algoV6Help": "أحدث صيغة. gpg وكيلوباترا لسه مبيدعموهاش.",
+  "createKey": "إنشاء المفتاح",
+  "rsaSlow": "مفاتيح RSA بتاخد وقت... استنى شوية.",
+  "sharePublicKey": "مشاركة المفتاح العام",
+  "showAsQr": "عرض كـ QR",
+  "showAsQrHelp": "الشخص اللي قدامك يمسحه بشِن",
+  "qrKeyCaption": "ده مفتاحك العام كامل. اللي يمسحه بشِن بيضيفك ويتعلّم إنه متأكد منك.",
+  "changeExpiry": "تغيير الصلاحية",
+  "yearsFromNow": "{count} سنة من النهارده",
+  "@yearsFromNow": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "updatedShareAgain": "اتحدّث — شارك المفتاح العام تاني عشان الناس تاخد التعديل.",
+  "changeKeyPassphrase": "تغيير كلمة سر المفتاح",
+  "changeKeyPassphraseBody": "كلمة السر الجديدة بتحمي الجزء السري من المفتاح.",
+  "passphraseChanged": "كلمة السر اتغيّرت",
+  "addIdentity": "إضافة هوية (اسم / إيميل)",
+  "identityHint": "الاسم <email@example.com>",
+  "exportSecretTitle": "تصدير المفتاح السري",
+  "exportSecretBody": "ده الجزء اللي محدش المفروض يشوفه غيرك. حتى لو متشفّر بكلمة سره، احفظه بس في مكان آمن (فلاشة معاك مثلاً) ومتبعتوش لحد.",
+  "masterPasswordForExport": "اكتب كلمة السر الرئيسية عشان تصدّر.",
+  "revocationCert": "شهادة الإلغاء",
+  "revocationCertBody": "لو المفتاح اتسرق أو ضاع، الشهادة دي بتعرّف الناس إنه ملغي — حتى لو ملكش وصول للمفتاح نفسه. احفظها في مكان آمن برا الموبايل (أي حد معاه الشهادة يقدر يلغي مفتاحك).",
+  "revokeTitle": "إلغاء المفتاح",
+  "revokeBody": "بعد الإلغاء محدش هيقدر يشفّرلك بالمفتاح ده تاني، ومينفعش ترجع فيه. لازم تشارك المفتاح العام بعدها عشان الناس تعرف.",
+  "revoke": "إلغاء المفتاح",
+  "revokeReason": "ليه بتلغيه؟",
+  "reasonCompromised": "اتسرق أو اتكشف",
+  "reasonSuperseded": "عملت مفتاح جديد بداله",
+  "reasonRetired": "مبقتش بستخدمه",
+  "reasonNone": "من غير سبب",
+  "revokedShareNow": "المفتاح اتلغى — شارك المفتاح العام دلوقتي عشان الناس تعرف.",
+  "deleteKeyTitle": "حذف المفتاح",
+  "deleteKeyBody": "المفتاح السري هيتمسح من الموبايل. لو معندكش نسخة احتياطية، أي رسالة متشفّرة ليه هتضيع للأبد.",
+  "masterPasswordForDelete": "اكتب كلمة السر الرئيسية عشان تحذف.",
+  "note": "ملاحظة",
+  "keyDetails": "المفتاح",
+  "keyRevokedNotice": "المفتاح ده اتلغى. محدش يقدر يشفّرله ومينفعش يوقّع، بس لسه تقدر تفك بيه الرسايل القديمة.",
+  "keyExpiredNotice": "صلاحية المفتاح خلصت. مدّها من «تغيير الصلاحية» وشارك المفتاح العام تاني.",
+  "fingerprint": "البصمة",
+  "qrFingerprintCaption": "اللي قدامك يمسح الـ QR ده بشِن عشان يتأكد إن المفتاح اللي عنده هو مفتاحك.",
+  "manage": "إدارة",
+  "makeDefault": "خليه الافتراضي",
+  "makeDefaultHelp": "بنوقّع بيه ونشفّر لنفسنا بيه تلقائياً",
+  "backupAndSafety": "نسخ احتياطي وأمان",
+  "exportSecret": "تصدير المفتاح السري",
+  "exportSecretHelp": "ملف .asc لنقل المفتاح لكيلوباترا أو جهاز تاني",
+  "revocationCertHelp": "احفظها برا الموبايل لو المفتاح اتسرق",
+  "revokeHelp": "لو المفتاح اتسرق أو بطّلت تستخدمه",
+  "deleteKey": "حذف المفتاح",
+  "flagCertify": "اعتماد",
+  "flagSign": "توقيع",
+  "flagEncrypt": "تشفير",
+  "flagAuth": "دخول",
+  "details": "التفاصيل",
+  "algorithm": "النوع",
+  "created": "اتعمل",
+  "expires": "بيخلص",
+  "keyIdLabel": "رقم المفتاح",
+  "version": "الإصدار",
+  "identities": "الهويات",
+  "subkeys": "المفاتيح الفرعية",
+  "fromClipboard": "من الحافظة",
+  "pasteText": "لصق نص",
+  "fromFile": "من ملف",
+  "scanQr": "مسح QR",
+  "scanQrHelp": "مفتاح عام أو بصمة من موبايل الشخص قدامك",
+  "clipboardEmpty": "الحافظة فاضية.",
+  "pasteKeyHere": "الصق المفتاح هنا (-----BEGIN PGP...)",
+  "qrNotKey": "الـ QR ده مش مفتاح ولا بصمة.",
+  "fingerprintUnknownTitle": "المفتاح ده مش عندك",
+  "fingerprintUnknownBody": "البصمة:\n{fp}\n\nضيف المفتاح العام بتاع الشخص الأول (ملف أو QR المفتاح كامل)، وبعدين امسح البصمة تاني عشان تتأكد.",
+  "@fingerprintUnknownBody": {
+    "placeholders": {
+      "fp": {
+        "type": "String"
+      }
+    }
+  },
+  "thisIsYourKey": "ده مفتاح من مفاتيحك.",
+  "verifiedTitle": "اتأكدنا",
+  "verifiedByQr": "البصمة اللي مسحتها مطابقة للمفتاح اللي عندك، فالجهة دي اتعلّمت إنها متأكد منها.",
+  "importDone": "اتضاف {added} واتحدّث {updated}",
+  "@importDone": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "updated": {
+        "type": "int"
+      }
+    }
+  },
+  "importKeysTitle": "استيراد مفاتيح",
+  "importFound": "لقينا {count} مفتاح. اختار اللي عايز تضيفه:",
+  "@importFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "alreadyHaveUpdate": "موجود عندك — هيتحدّث بس (مفيش حاجة هتتمسح)",
+  "secretGoesToMyKeys": "المفاتيح السرية بتتضاف لـ «مفاتيحي» في البروفايل ده.",
+  "whereToShow": "يظهر فين",
+  "thisProfileOnly": "بروفايل «{name}» بس",
+  "@thisProfileOnly": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "thisProfileOnlyHelp": "مش هيظهر في البروفايلات التانية",
+  "allProfilesHelp": "هيظهر في كل البروفايلات",
+  "importQrVerified": "المفتاح جه بـ QR من موبايل الشخص نفسه، فهيتعلّم إنه متأكد منه.",
+  "verifyAfterImport": "بعد الاستيراد قارن البصمة مع صاحب المفتاح (أو امسح الـ QR بتاعه) عشان تتأكد إنه بتاعه فعلاً.",
+  "addContact": "إضافة جهة اتصال",
+  "noContactsTitle": "مفيش جهات اتصال",
+  "noContactsBody": "ضيف المفتاح العام بتاع أي حد عشان تشفّرله رسايل وتتأكد من توقيعاته.",
+  "searchContacts": "دوّر بالاسم أو الإيميل أو البصمة",
+  "contactsCount": "جهات الاتصال ({count})",
+  "@contactsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "compareTitle": "قارن البصمة",
+  "compareBody": "اطلب من الشخص يقرالك البصمة من موبايله (وش لوش أو في مكالمة)، وقارنها حرف حرف:\n\n{fp}",
+  "@compareBody": {
+    "placeholders": {
+      "fp": {
+        "type": "String"
+      }
+    }
+  },
+  "theyMatch": "مطابقة",
+  "markedVerified": "اتعلّم إنه متأكد منه",
+  "needOwnKey": "محتاج مفتاح من مفاتيحك (مش منتهي) الأول.",
+  "certifyTitle": "التوقيع على المفتاح",
+  "certifyBody": "هتوقّع بمفتاحك إنك متأكد إن المفتاح ده بتاع الشخص ده. لو شاركت المفتاح ده بعد كده، اللي يثق فيك هيعرف إنك اتأكدت منه. اعملها بس لو قارنت البصمة بنفسك.",
+  "certify": "توقيع",
+  "certified": "اتوقّع على المفتاح",
+  "deleteContactTitle": "حذف جهة الاتصال",
+  "deleteContactBody": "المفتاح العام بتاعه هيتشال من البروفايل ده.",
+  "deleteContactSharedBody": "جهة الاتصال دي ظاهرة في كل البروفايلات — هتتشال منهم كلهم.",
+  "contact": "جهة اتصال",
+  "contactVerified": "متأكد إن المفتاح ده بتاعه",
+  "contactNotVerified": "لسه متأكدتش من المفتاح ده",
+  "contactVerifiedBody": "انت قارنت البصمة مع صاحبها. التوقيعات بالمفتاح ده هتظهر خضرا.",
+  "contactNotVerifiedBody": "أي حد ممكن يعمل مفتاح باسم أي حد. قبل ما تثق فيه، اتأكد من البصمة مع صاحبها نفسه.",
+  "scanTheirQr": "امسح الـ QR بتاعه",
+  "compareManually": "قارنت البصمة بنفسي",
+  "certifyWithMyKey": "وقّع عليه بمفتاحي",
+  "unmarkVerified": "شيل علامة «متأكد منه»",
+  "showInAllProfiles": "يظهر في كل البروفايلات",
+  "updateKey": "تحديث المفتاح",
+  "updateKeyHelp": "لو صاحبه بعتلك نسخة أحدث (صلاحية جديدة / إلغاء)",
+  "deleteContact": "حذف جهة الاتصال",
+  "messagePasswordTitle": "كلمة سر الرسالة",
+  "messagePasswordBody": "الرسالة دي متشفّرة بكلمة سر (مش بمفتاح).",
+  "messagePassword": "كلمة السر",
+  "otherProfileTitle": "الرسالة لبروفايل تاني",
+  "otherProfileBody": "الرسالة دي متشفّرة لمفتاح في بروفايل «{name}». غيّر البروفايل من فوق وجرّب تاني.",
+  "@otherProfileBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notForYouTitle": "الرسالة دي مش ليك",
+  "notForYouHidden": "المرسل خبّى أرقام المفاتيح، ومفيش مفتاح عندك عرف يفكها.",
+  "notForYouBody": "متشفّرة لمفاتيح مش عندك:\n{ids}",
+  "@notForYouBody": {
+    "placeholders": {
+      "ids": {
+        "type": "String"
+      }
+    }
+  },
+  "toPeople": "لناس",
+  "withPassword": "بكلمة سر",
+  "passwordModeHelp": "أي حد معاه كلمة السر يقدر يفك — حتى لو معندوش شِن (gpg / كيلوباترا). ابعت كلمة السر بطريقة تانية غير الرسالة نفسها.",
+  "recipients": "المستلمين",
+  "noRecipientsChosen": "اختار مستلم واحد على الأقل.",
+  "unverifiedRecipientWarning": "في مستلم لسه متأكدتش من مفتاحه — لو المفتاح مش بتاعه فعلاً حد تاني هيقدر يقرا الرسالة.",
+  "encryptToSelf": "شفّر لنفسي كمان",
+  "encryptToSelfHelp": "عشان تقدر تقرا اللي بعته بعدين",
+  "signMessage": "وقّع",
+  "signMessageHelp": "المستلم يتأكد إنها منك ومتغيّرتش",
+  "signingAs": "بتوقّع كـ {name}",
+  "@signingAs": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "changeSigningKey": "تغيير مفتاح التوقيع",
+  "newMessagePasswordBody": "اختار كلمة سر قوية، وابعتها للمستلم بطريقة تانية.",
+  "writeSomething": "اكتب حاجة الأول.",
+  "encryptedMessage": "الرسالة المتشفّرة",
+  "encryptedMessageHelp": "ابعتها بأي طريقة (واتساب، إيميل...). محدش يقدر يقراها غير المستلمين.",
+  "encryptText": "تشفير نص",
+  "writeMessage": "اكتب الرسالة هنا",
+  "encrypt": "تشفير",
+  "pasteSomething": "الصق رسالة أو توقيع الأول.",
+  "detachedNeedsText": "ده توقيع منفصل: الصق النص الأصلي في الخانة اللي ظهرت وجرّب تاني.",
+  "notPgpText": "النص ده مش رسالة OpenPGP.",
+  "decryptVerify": "فك / تحقق",
+  "decryptVerifyHelp": "الصق رسالة متشفّرة، أو رسالة موقّعة، أو مفتاح عام — وشِن هيعرف يعمل إيه.",
+  "pasteMessage": "-----BEGIN PGP MESSAGE-----",
+  "signedTextLabel": "النص الأصلي",
+  "signedTextHint": "الصق النص اللي اتوقّع",
+  "signature": "التوقيع",
+  "decryptedText": "الرسالة",
+  "signedContent": "المحتوى",
+  "signedMessage": "النص الموقّع",
+  "signText": "توقيع نص",
+  "signingKey": "مفتاح التوقيع",
+  "detachedSignature": "توقيع منفصل",
+  "detachedSignatureHelp": "التوقيع لوحده من غير النص (لملفات .sig)",
+  "sign": "توقيع",
+  "chooseFileFirst": "اختار ملف الأول.",
+  "fileIsSignedOnly": "الملف ده موقّع بس (مش متشفّر) — استخدم «تحقق من ملف».",
+  "fileNotEncrypted": "الملف ده مش متشفّر بـ OpenPGP.",
+  "chooseSignatureFile": "اختار ملف التوقيع (.sig / .asc).",
+  "encryptFile": "تشفير ملف",
+  "encryptFileHelp": "أي نوع ملف وأي حجم. الملف المتشفّر بيتحفظ في المكان اللي تختاره.",
+  "decryptFile": "فك ملف",
+  "decryptFileHelp": "ملف .pgp / .gpg / .asc. لو الملف اتلعب فيه، اللي اتكتب منه بيتمسح لوحده.",
+  "decrypt": "فك التشفير",
+  "signFile": "توقيع ملف",
+  "signFileHelp": "بيعمل ملف توقيع منفصل (.sig) تبعته جنب الملف.",
+  "verifyFile": "تحقق من ملف",
+  "verifyFileHelp": "اختار الملف وملف التوقيع بتاعه. لو الملف موقّع جوه نفسه، سيب التوقيع فاضي.",
+  "verify": "تحقق",
+  "chooseFile": "اختار ملف",
+  "chooseSignatureFileOptional": "ملف التوقيع (.sig) — اختياري",
+  "asciiArmor": "نص (ASCII armor)",
+  "asciiArmorHelp": "ملف .asc نصي بدل .pgp — أكبر شوية بس يتبعت كنص",
+  "savedAs": "اتحفظ: {name}",
+  "@savedAs": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "text": "نصوص",
+  "encryptTextHelp": "رسالة محدش يقراها غير اللي تختارهم",
+  "decryptVerifyShort": "افتح رسالة، أو اتأكد من توقيع",
+  "signTextHelp": "الناس تتأكد إن الكلام ده منك",
+  "files": "ملفات",
+  "encryptFileShort": "صور، مستندات، أي حاجة",
+  "decryptFileShort": ".pgp / .gpg / .asc",
+  "signFileShort": "ملف توقيع .sig",
+  "verifyFileShort": "اتأكد إن الملف متغيّرش ومن مين",
+  "newProfile": "بروفايل جديد",
+  "profilesHelp": "كل بروفايل ليه مفاتيحه وجهات اتصاله لوحده (شخصي، شغل...). جهات الاتصال بتفضل في البروفايل بتاعها، إلا لو اخترت إنها تظهر في الكل.",
+  "hasOwnPassword": "بكلمة سر لوحده",
+  "profilePasswordHelp": "طبقة زيادة: البروفايل يفضل مقفول لحد ما تكتب كلمة سره، حتى لو التطبيق مفتوح.",
+  "profileCreated": "البروفايل اتعمل",
+  "switchTo": "افتحه",
+  "renameProfile": "الاسم واللون",
+  "changeProfilePassword": "تغيير كلمة سر البروفايل",
+  "setProfilePassword": "حط كلمة سر للبروفايل",
+  "removeProfilePassword": "شيل كلمة سر البروفايل",
+  "lockProfileNow": "اقفل البروفايل دلوقتي",
+  "deleteProfile": "حذف البروفايل",
+  "deleteProfileTitle": "حذف «{name}»؟",
+  "@deleteProfileTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteProfileBody": "كل المفاتيح السرية وجهات الاتصال اللي في البروفايل ده هتتمسح ومش هترجع. خد نسخة احتياطية الأول.",
+  "profileName": "اسم البروفايل",
+  "profileNameHint": "شخصي، شغل، الجامعة...",
+  "protectWithPassword": "كلمة سر لوحده",
+  "backupPassword": "كلمة سر النسخة الاحتياطية",
+  "backupPasswordHelp": "النسخة بتتشفّر بيها. من غيرها مفيش أي طريقة تفتحها — اكتبها في مكان آمن.",
+  "backupDoneTitle": "النسخة الاحتياطية جاهزة",
+  "backupDoneBody": "بروفايلات: {profiles}\nمفاتيح: {keys}\nجهات اتصال: {contacts}\n\nحطها في مكان برا الموبايل (كمبيوتر، فلاشة).",
+  "@backupDoneBody": {
+    "placeholders": {
+      "profiles": {
+        "type": "int"
+      },
+      "keys": {
+        "type": "int"
+      },
+      "contacts": {
+        "type": "int"
+      }
+    }
+  },
+  "backupSkipped": "البروفايلات المقفولة دي متاخدش منها نسخة (افتحها وجرّب تاني): {names}",
+  "@backupSkipped": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreTitle": "استرجاع النسخة؟",
+  "backupFrom": "النسخة من يوم {date}",
+  "@backupFrom": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "willMerge": "هيندمج مع البروفايل اللي بنفس الاسم",
+  "willCreate": "بروفايل جديد",
+  "sharedContactsCount": "جهات اتصال لكل البروفايلات: {count}",
+  "@sharedContactsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "restoreNothingDeleted": "مفيش حاجة عندك هتتمسح: المفاتيح الجديدة بتتضاف والموجودة بتتحدّث بس.",
+  "restore": "استرجاع",
+  "backup": "النسخ الاحتياطي",
+  "backupIntro": "النسخة الاحتياطية ملف .shen متشفّر بكلمة سر بتختارها (OpenPGP: Argon2 + AES-256). المفاتيح السرية جواها لسه محمية بكلمات سرها كمان. تقدر ترجّعها على أي موبايل.",
+  "exportSection": "تصدير",
+  "backupEverything": "نسخة من كل حاجة",
+  "backupEverythingHelp": "كل البروفايلات المفتوحة + جهات الاتصال المشتركة",
+  "backupThisProfile": "نسخة من «{name}» بس",
+  "@backupThisProfile": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backupThisProfileHelp": "مفاتيح وجهات اتصال البروفايل ده بس",
+  "importSection": "استرجاع",
+  "restoreBackup": "استرجاع نسخة احتياطية",
+  "restoreBackupHelp": "من ملف .shen",
+  "backupFormatNote": "الصيغة مفتوحة وموثّقة: تقدر تفك النسخة من غير شِن خالص بالأمر sq decrypt (Sequoia PGP). مفاتيحك العامة تقدر تصدّرها لوحدها كملف .asc من صفحة كل مفتاح.",
+  "immediately": "على طول",
+  "bioEnableTitle": "تفعيل الفتح بالبصمة",
+  "bioEnabled": "الفتح بالبصمة اتفعّل",
+  "currentMasterPassword": "اكتب كلمة السر الرئيسية الحالية.",
+  "newMasterPassword": "كلمة سر رئيسية جديدة",
+  "passwordChanged": "كلمة السر اتغيّرت",
+  "wipeTitle": "مسح كل البيانات",
+  "wipeBody": "كل المفاتيح والبروفايلات وجهات الاتصال هتتمسح من الموبايل ده نهائياً. لو معندكش نسخة احتياطية مش هتقدر ترجّعها.",
+  "wipe": "امسح كل حاجة",
+  "masterPasswordForWipe": "اكتب كلمة السر الرئيسية عشان تمسح كل حاجة.",
+  "security": "الأمان",
+  "bioHelp": "البصمة بتفك مفتاح الخزنة نفسه (مش مجرد سماح)",
+  "autoLock": "القفل التلقائي",
+  "autoLockValue": "بعد ما تخرج من التطبيق بـ {time}",
+  "@autoLockValue": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "rememberPassphrase": "تذكّر كلمات سر المفاتيح",
+  "rememberPassphraseOff": "لأ — هتتطلب كل مرة (الأأمن)",
+  "rememberPassphraseOn": "في الذاكرة بس لمدة {count} دقيقة، وبتتمسح لما التطبيق يتقفل",
+  "@rememberPassphraseOn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dontRemember": "متفتكرش",
+  "clipboardClear": "مسح الحافظة",
+  "clipboardClearValue": "النص السري بيتمسح بعد {count} ثانية",
+  "@clipboardClearValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "changeMasterPassword": "تغيير كلمة السر الرئيسية",
+  "data": "البيانات",
+  "profilesShortHelp": "شخصي، شغل... كل واحد بمفاتيحه",
+  "backupShortHelp": "تصدير واسترجاع نسخة متشفّرة",
+  "appearance": "الشكل",
+  "language": "اللغة",
+  "followPhone": "زي الموبايل",
+  "theme": "الوضع",
+  "themeLight": "فاتح",
+  "themeDark": "غامق",
+  "about": "عن التطبيق",
+  "aboutBody": "مفتوح المصدر (GPL-3.0). من غير إنترنت ولا تتبّع ولا إعلانات.",
+  "sourceCode": "الكود المصدري",
+  "releaseKey": "بصمة مفتاح توقيع الإصدارات",
+  "license": "الرخصة",
+  "dangerZone": "منطقة خطر",
+  "wipeHelp": "بيمسح المفاتيح والبروفايلات من الموبايل ده"
+}

@@ -99,7 +99,7 @@ dependencies {
     implementation("org.bouncycastle:bcutil-jdk18on:1.85")
     // البصمة مربوطة بمفتاح الـ Keystore (CryptoObject)
     implementation("androidx.biometric:biometric:1.1.0")
-    implementation("androidx.fragment:fragment-ktx:1.8.9")
+    implementation("androidx.fragment:fragment-ktx:1.9.1")
     // مسح QR (بصمة المفتاح) — ZXing، مفتوحة بالكامل من غير خدمات جوجل
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 

@@ -75,7 +75,7 @@ class _LockScreenState extends State<LockScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Center(child: ShenMark(size: 80)),
+              const Center(child: ShenMark(size: 120)),
               const SizedBox(height: 18),
               Text(l.locked, textAlign: TextAlign.center, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
               const SizedBox(height: 6),

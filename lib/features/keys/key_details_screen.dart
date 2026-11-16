@@ -233,14 +233,12 @@ class _Details extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final p = context.palette;
-    final chips = keyChips(context, k);
     return AppScaffold(
       title: l.keyDetails,
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
         children: [
           KeyHeader(k: k),
-          if (chips.isNotEmpty) ...[const SizedBox(height: 10), Wrap(spacing: 6, runSpacing: 6, children: chips)],
           if (k.revoked) ...[
             const SizedBox(height: 12),
             _Notice(color: p.danger, text: l.keyRevokedNotice),
@@ -248,7 +246,7 @@ class _Details extends StatelessWidget {
             const SizedBox(height: 12),
             _Notice(color: p.danger, text: l.keyExpiredNotice),
           ],
-          SectionLabel(l.fingerprint),
+          const SizedBox(height: 18),
           FingerprintView(
             fp: k.fp,
             onQr: () => showQrDialog(context, title: l.fingerprint, data: fingerprintQr(k.fp), caption: l.qrFingerprintCaption),
@@ -318,20 +316,29 @@ class KeyHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.palette;
-    return Row(
+    final chips = keyChips(context, k, showScope: false);
+    // الاسم جوه خرطوش — الخط في آخره بلون الختم (نحاس لمفاتيحي، ملكيت للي اتأكدت منه)
+    return Column(
       children: [
-        IconBadge(icon: k.secret ? Icons.vpn_key_rounded : Icons.person_rounded, size: 56, color: k.usable ? p.accent : p.textMuted),
-        const SizedBox(width: 14),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(k.label, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
-              if (k.email != null && k.name.isNotEmpty)
-                Text(k.email!, textDirection: TextDirection.ltr, style: TextStyle(color: p.textMuted)),
-            ],
+        const SizedBox(height: 4),
+        Cartouche(
+          height: 58,
+          barColor: keyRing(p, k) == p.border ? p.textMuted : keyRing(p, k),
+          child: Text(
+            k.label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: k.usable ? p.text : p.textMuted),
           ),
         ),
+        if (k.email != null && k.name.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          Text(k.email!, textDirection: TextDirection.ltr, style: TextStyle(color: p.textMuted, fontSize: 14)),
+        ],
+        if (chips.isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Wrap(alignment: WrapAlignment.center, spacing: 14, runSpacing: 6, children: chips),
+        ],
       ],
     );
   }
@@ -347,13 +354,14 @@ class KeyInfoRows extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final p = context.palette;
-    Widget row(String a, String b) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
+    Widget row(String a, String b, {bool last = false}) => Container(
+          padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 2),
+          decoration: BoxDecoration(border: last ? null : Border(bottom: BorderSide(color: p.border))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(width: 120, child: Text(a, style: TextStyle(color: p.textMuted))),
-              Expanded(child: Text(b, style: const TextStyle(fontWeight: FontWeight.w600))),
+              Expanded(child: Text(a, style: TextStyle(color: p.textMuted, fontSize: 14))),
+              Text(b, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
             ],
           ),
         );
@@ -368,13 +376,14 @@ class KeyInfoRows extends StatelessWidget {
       children: [
         SectionLabel(l.details),
         AppCard(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
           child: Column(
             children: [
               row(l.algorithm, k.algo),
               row(l.created, formatDate(context, k.created)),
               row(l.expires, k.expires == null ? l.never : formatDate(context, k.expires!)),
-              row(l.keyIdLabel, k.keyId),
-              row(l.version, 'v${k.version}'),
+              row(l.keyIdLabel, shortKeyId(k.keyId)),
+              row(l.version, 'v${k.version}', last: true),
             ],
           ),
         ),

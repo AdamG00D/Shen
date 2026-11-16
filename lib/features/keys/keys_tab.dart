@@ -44,8 +44,8 @@ class KeysTab extends StatelessWidget {
                   child: ListView(
                     padding: const EdgeInsets.fromLTRB(16, 4, 16, 96),
                     children: [
-                      SectionLabel(
-                        l.myKeysCount(keys.length),
+                      PageTitle(
+                        l.myKeys,
                         trailing: TextButton.icon(
                           onPressed: () => showImportSources(context),
                           icon: const Icon(Icons.download_rounded, size: 18),

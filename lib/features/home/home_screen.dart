@@ -60,10 +60,19 @@ class _HomeScreenState extends State<HomeScreen> {
         final open = active?.open ?? false;
         return Scaffold(
           appBar: AppBar(
-            titleSpacing: 12,
+            titleSpacing: 16,
+            toolbarHeight: 64,
             title: active == null ? Text(l.appName) : _ProfileChip(profile: active),
             actions: [
-              IconButton(tooltip: l.lockNow, icon: const Icon(Icons.lock_rounded), onPressed: s.lock),
+              Padding(
+                padding: const EdgeInsetsDirectional.only(end: 12),
+                child: IconButton.outlined(
+                  tooltip: l.lockNow,
+                  style: IconButton.styleFrom(side: BorderSide(color: context.palette.border)),
+                  icon: const Icon(Icons.lock_outline_rounded, size: 21),
+                  onPressed: s.lock,
+                ),
+              ),
             ],
           ),
           body: !open && _tab != 3
@@ -72,14 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   index: _tab,
                   children: const [KeysTab(), ContactsTab(), ToolsTab(), SettingsTab()],
                 ),
-          bottomNavigationBar: NavigationBar(
-            selectedIndex: _tab,
-            onDestinationSelected: (i) => setState(() => _tab = i),
-            destinations: [
-              NavigationDestination(icon: const Icon(Icons.vpn_key_outlined), selectedIcon: const Icon(Icons.vpn_key_rounded), label: l.myKeys),
-              NavigationDestination(icon: const Icon(Icons.people_outline_rounded), selectedIcon: const Icon(Icons.people_rounded), label: l.contacts),
-              NavigationDestination(icon: const Icon(Icons.enhanced_encryption_outlined), selectedIcon: const Icon(Icons.enhanced_encryption_rounded), label: l.tools),
-              NavigationDestination(icon: const Icon(Icons.settings_outlined), selectedIcon: const Icon(Icons.settings_rounded), label: l.settings),
+          bottomNavigationBar: _ShenNavBar(
+            selected: _tab,
+            onSelect: (i) => setState(() => _tab = i),
+            items: [
+              (Icons.vpn_key_outlined, l.myKeys),
+              (Icons.people_outline_rounded, l.contacts),
+              (Icons.lock_outline_rounded, l.tools),
+              (Icons.settings_outlined, l.settings),
             ],
           ),
         );
@@ -88,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+/// زرار البروفايل على شكل خرطوش.
 class _ProfileChip extends StatelessWidget {
   const _ProfileChip({required this.profile});
 
@@ -96,21 +106,89 @@ class _ProfileChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.palette;
-    return InkWell(
-      borderRadius: BorderRadius.circular(22),
-      onTap: () => showProfileSwitcher(context),
-      child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 10, 4),
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: Cartouche(
+        onTap: () => showProfileSwitcher(context),
+        barColor: profileColor(profile.color),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ProfileDot(name: profile.name, color: profile.color, size: 32, locked: !profile.open),
-            const SizedBox(width: 10),
+            if (!profile.open) ...[Icon(Icons.lock_rounded, size: 16, color: p.textMuted), const SizedBox(width: 6)],
             Flexible(
-              child: Text(profile.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+              child: Text(
+                profile.name,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 15.5, fontWeight: FontWeight.w600),
+              ),
             ),
-            Icon(Icons.expand_more_rounded, color: p.textMuted),
+            const SizedBox(width: 4),
+            Icon(Icons.expand_more_rounded, color: p.textMuted, size: 20),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// شريط التنقل: من غير كبسولة ملوّنة — التاب المختار عليه خط نحاسي فوقه.
+class _ShenNavBar extends StatelessWidget {
+  const _ShenNavBar({required this.selected, required this.onSelect, required this.items});
+
+  final int selected;
+  final ValueChanged<int> onSelect;
+  final List<(IconData, String)> items;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    return Container(
+      decoration: BoxDecoration(color: p.surface, border: Border(top: BorderSide(color: p.border))),
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: 66,
+          child: Row(
+            children: [
+              for (var i = 0; i < items.length; i++)
+                Expanded(
+                  child: Semantics(
+                    selected: i == selected,
+                    button: true,
+                    child: InkWell(
+                      onTap: () => onSelect(i),
+                      child: Column(
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 180),
+                            height: 3,
+                            width: i == selected ? 36 : 0,
+                            decoration: BoxDecoration(
+                              color: p.accent,
+                              borderRadius: const BorderRadius.vertical(bottom: Radius.circular(3)),
+                            ),
+                          ),
+                          const Spacer(),
+                          Icon(items[i].$1, size: 23, color: i == selected ? p.text : p.textMuted),
+                          const SizedBox(height: 4),
+                          Text(
+                            items[i].$2,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: i == selected ? FontWeight.w700 : FontWeight.w500,
+                              color: i == selected ? p.text : p.textMuted,
+                            ),
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -185,7 +263,7 @@ Future<void> showProfileSwitcher(BuildContext context) {
               subtitle: pr.open && pr.keys != null
                   ? Text(l.profileCounts(pr.keys!, pr.contacts ?? 0))
                   : Text(l.profileLockedShort, style: TextStyle(color: p.textMuted)),
-              trailing: pr.active ? Icon(Icons.check_circle_rounded, color: p.accent) : null,
+              trailing: pr.active ? Icon(Icons.check_rounded, color: p.text) : null,
               onTap: () {
                 Navigator.pop(ctx);
                 openProfile(context, pr);

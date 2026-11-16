@@ -54,7 +54,7 @@ class ProfilesScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      if (p.active) Chip2(l.current, color: context.palette.accent),
+                      if (p.active) Chip2(l.current, color: context.palette.accentText),
                     ],
                   ),
                 ),

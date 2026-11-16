@@ -109,7 +109,7 @@ class BackupScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
         children: [
           AppCard(
-            color: p.accentSoft,
+            color: p.surfaceAlt,
             child: Text(l.backupIntro, style: const TextStyle(height: 1.6)),
           ),
           SectionLabel(l.exportSection),

@@ -41,6 +41,7 @@ class _ContactsTabState extends State<ContactsTab> {
               : ListView(
                   padding: const EdgeInsets.fromLTRB(16, 4, 16, 96),
                   children: [
+                    PageTitle(l.contacts),
                     TextField(
                       decoration: InputDecoration(hintText: l.searchContacts, prefixIcon: const Icon(Icons.search_rounded)),
                       onChanged: (v) => setState(() => _q = v.trim()),

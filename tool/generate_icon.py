@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-يولّد أيقونة التطبيق: حلقة شِن (دايرة حبل فوق خط مستقيم) وجواها فتحة مفتاح.
+يولّد أيقونة التطبيق: حلقة شِن نحاسية (حبل بخط داخلي رفيع، قرص الشمس في النص، عُقدة) فوق خط، على بازلت.
+نفس رسمة ShenMark في lib/widgets/shen_mark.dart.
 
     python3 tool/generate_icon.py
 
@@ -8,66 +9,58 @@
   • android/app/src/main/res/drawable-*/ic_launcher_{background,foreground,monochrome}.png
   • android/app/src/main/res/mipmap-*/ic_launcher.png   (الأجهزة القديمة)
   • android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
-  • tool/icon_preview.png
+  • tool/icon_preview.png و docs/images/icon.png
 
 لازم Pillow:  pip install pillow
 """
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw
+from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parent.parent
 RES = ROOT / "android/app/src/main/res"
 S = 1024  # الرسم بدقة عالية وبعدين بنصغّر
+K = S / 160  # إحداثيات الرسمة في مساحة 160×160 زي ShenPainter
 
-TOP = (79, 70, 229)  # #4F46E5 (لون التطبيق الافتراضي)
-BOTTOM = (124, 58, 237)  # #7C3AED
-
-CX, CY = 512, 448  # مركز الحلقة
-R_OUT, R_IN = 250, 172  # الحلقة
-BAR = (512 - 300, 700, 512 + 300, 776)  # الخط اللي تحت
+BASALT = (28, 27, 25)  # #1C1B19
+BASALT_EDGE = (20, 19, 15)  # #14130F
+BRASS = (201, 150, 59)  # #C9963B
 
 
 def background() -> Image.Image:
-    """تدرّج قُطري."""
-    ramp = Image.linear_gradient("L").resize((S, S)).rotate(45, expand=False, resample=Image.BICUBIC)
-    ramp = ramp.resize((S * 2, S * 2)).crop((S // 2, S // 2, S // 2 + S, S // 2 + S))
-    return Image.composite(Image.new("RGB", (S, S), BOTTOM), Image.new("RGB", (S, S), TOP), ramp)
+    """بازلت مع تدرّج خفيف جداً من النص للأطراف (عشان ميبقاش مسطّح)."""
+    ramp = Image.radial_gradient("L").resize((S, S))
+    return Image.composite(Image.new("RGB", (S, S), BASALT_EDGE), Image.new("RGB", (S, S), BASALT), ramp)
 
 
-def shen_mask() -> Image.Image:
+def ring_mask() -> Image.Image:
     m = Image.new("L", (S, S), 0)
     d = ImageDraw.Draw(m)
-    d.ellipse((CX - R_OUT, CY - R_OUT, CX + R_OUT, CY + R_OUT), fill=255)
-    d.ellipse((CX - R_IN, CY - R_IN, CX + R_IN, CY + R_IN), fill=0)
-    d.rounded_rectangle(BAR, radius=38, fill=255)
-    # الحبل بيتعقد: وصلة صغيرة بين الحلقة والخط
-    d.rectangle((CX - 70, CY + R_OUT - 40, CX + 70, BAR[1] + 10), fill=255)
-    return m
 
+    def circle(cx, cy, r, width=None, fill=255):
+        box = [(cx - r) * K, (cy - r) * K, (cx + r) * K, (cy + r) * K]
+        if width is None:
+            d.ellipse(box, fill=fill)
+        else:
+            d.ellipse(box, outline=fill, width=round(width * K))
 
-def keyhole_mask() -> Image.Image:
-    m = Image.new("L", (S, S), 0)
-    d = ImageDraw.Draw(m)
-    r = 58
-    hy = CY - 30
-    d.ellipse((CX - r, hy - r, CX + r, hy + r), fill=255)
-    d.polygon([(CX - 34, hy + 20), (CX + 34, hy + 20), (CX + 54, hy + 132), (CX - 54, hy + 132)], fill=255)
+    circle(80, 68, 38, width=10)  # الحلقة (نص قطرها 33 ± 5)
+    circle(80, 68, 22.75, width=1.5, fill=150)  # خط الحبل الرفيع (أخف)
+    circle(80, 68, 6)  # قرص الشمس
+    d.rounded_rectangle([71 * K, 96 * K, 89 * K, 112 * K], radius=3 * K, fill=255)  # العُقدة
+    d.rounded_rectangle([36 * K, 110 * K, 124 * K, 121 * K], radius=5.5 * K, fill=255)  # الخط
     return m
 
 
 def foreground() -> Image.Image:
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    white = Image.new("RGBA", (S, S), (255, 255, 255, 255))
-    img.paste(white, mask=shen_mask())
-    img.paste(Image.new("RGBA", (S, S), (255, 255, 255, 235)), mask=keyhole_mask())
+    img.paste(Image.new("RGBA", (S, S), BRASS + (255,)), mask=ring_mask())
     return img
 
 
 def monochrome() -> Image.Image:
-    mask = ImageChops.lighter(shen_mask(), keyhole_mask())
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    img.paste(Image.new("RGBA", (S, S), (255, 255, 255, 255)), mask=mask)
+    img.paste(Image.new("RGBA", (S, S), (255, 255, 255, 255)), mask=ring_mask())
     return img
 
 

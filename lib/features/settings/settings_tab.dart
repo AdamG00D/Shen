@@ -46,7 +46,7 @@ class _SettingsTabState extends State<SettingsTab> {
             for (final v in values)
               ListTile(
                 title: Text(label(v)),
-                trailing: v == current ? Icon(Icons.check_rounded, color: ctx.palette.accent) : null,
+                trailing: v == current ? Icon(Icons.check_rounded, color: ctx.palette.text) : null,
                 onTap: () => Navigator.pop(ctx, v),
               ),
           ],
@@ -105,6 +105,7 @@ class _SettingsTabState extends State<SettingsTab> {
       builder: (context, _) => ListView(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
         children: [
+          PageTitle(l.settings),
           SectionLabel(l.security),
           AppCard(
             padding: EdgeInsets.zero,
@@ -207,31 +208,6 @@ class _SettingsTabState extends State<SettingsTab> {
                     );
                     if (v != null) await _s.update(themeMode: v);
                   },
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 4, 14, 14),
-                  child: Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: [
-                      for (final a in AccentTheme.all)
-                        Tooltip(
-                          message: a.label(l),
-                          child: GestureDetector(
-                            onTap: () => _s.update(accent: a.id),
-                            child: Container(
-                              width: 36,
-                              height: 36,
-                              decoration: BoxDecoration(
-                                color: a.accent(Theme.of(context).brightness),
-                                shape: BoxShape.circle,
-                                border: Border.all(color: _s.accent == a.id ? p.text : Colors.transparent, width: 3),
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
                 ),
               ],
             ),

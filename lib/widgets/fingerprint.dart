@@ -30,45 +30,93 @@ String? parseFingerprintQr(String text) {
 }
 
 class FingerprintView extends StatelessWidget {
-  const FingerprintView({super.key, required this.fp, this.onQr});
+  const FingerprintView({super.key, required this.fp, this.onQr, this.title});
 
   final String fp;
   final VoidCallback? onQr;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
     final p = context.palette;
     final l = context.l10n;
+    final groups = [for (var i = 0; i < fp.length; i += 4) fp.substring(i, (i + 4).clamp(0, fp.length))];
+    // 10 مجموعات (v4) في صفين، 16 (v6) في 4 صفوف — آخر مجموعة نحاسي عشان العين تمسك فيها
+    final perRow = groups.length > 10 ? 4 : 5;
+    final rows = [for (var i = 0; i < groups.length; i += perRow) groups.sublist(i, (i + perRow).clamp(0, groups.length))];
+    Widget action(IconData icon, String tip, VoidCallback onTap) => SizedBox(
+          width: 44,
+          height: 38,
+          child: OutlinedButton(
+            onPressed: onTap,
+            style: OutlinedButton.styleFrom(
+              padding: EdgeInsets.zero,
+              minimumSize: const Size(44, 38),
+              side: BorderSide(color: p.border),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: Tooltip(message: tip, child: Icon(icon, size: 18, color: p.text)),
+          ),
+        );
     return Container(
-      padding: const EdgeInsets.fromLTRB(14, 12, 6, 12),
-      decoration: BoxDecoration(color: p.surfaceAlt, borderRadius: BorderRadius.circular(16)),
-      child: Row(
+      padding: const EdgeInsets.fromLTRB(16, 12, 12, 16),
+      decoration: BoxDecoration(
+        color: p.surface,
+        borderRadius: BorderRadius.circular(AppTheme.radius),
+        border: Border.all(color: p.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title ?? l.fingerprint,
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: p.textMuted),
+                ),
+              ),
+              action(Icons.copy_rounded, l.copy, () {
+                SystemBridge.copy(fp, sensitive: false);
+                showToast(context, l.copied);
+              }),
+              if (onQr != null) ...[const SizedBox(width: 6), action(Icons.qr_code_2_rounded, l.showQr, onQr!)],
+            ],
+          ),
+          const SizedBox(height: 12),
+          Semantics(
+            label: formatFingerprint(fp),
+            excludeSemantics: true,
             child: Directionality(
               textDirection: TextDirection.ltr,
-              child: SelectableText(
-                formatFingerprint(fp),
-                style: TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 15,
-                  height: 1.6,
-                  letterSpacing: 0.6,
-                  fontWeight: FontWeight.w600,
-                  color: p.text,
-                ),
+              child: Column(
+                children: [
+                  for (final row in rows)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3),
+                      child: Row(
+                        children: [
+                          for (final g in row)
+                            Expanded(
+                              child: Text(
+                                g,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.monoFamily,
+                                  fontSize: 16,
+                                  height: 1.4,
+                                  color: identical(g, groups.last) ? p.accentText : p.text,
+                                ),
+                              ),
+                            ),
+                          for (var i = row.length; i < perRow; i++) const Expanded(child: SizedBox()),
+                        ],
+                      ),
+                    ),
+                ],
               ),
             ),
           ),
-          IconButton(
-            tooltip: l.copy,
-            icon: const Icon(Icons.copy_rounded),
-            onPressed: () {
-              SystemBridge.copy(fp, sensitive: false);
-              showToast(context, l.copied);
-            },
-          ),
-          if (onQr != null) IconButton(tooltip: l.showQr, icon: const Icon(Icons.qr_code_2_rounded), onPressed: onQr),
         ],
       ),
     );
@@ -92,6 +140,8 @@ Future<void> showQrDialog(BuildContext context, {required String title, required
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16)),
                 child: QrImageView(
+                  eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Color(0xFF1C1B19)),
+                  dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Color(0xFF1C1B19)),
                   data: data,
                   size: 260,
                   backgroundColor: Colors.white,

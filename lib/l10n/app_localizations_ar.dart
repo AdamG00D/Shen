@@ -102,30 +102,6 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get colorIndigo => 'نيلي';
-
-  @override
-  String get colorTeal => 'فيروزي';
-
-  @override
-  String get colorEmerald => 'زمردي';
-
-  @override
-  String get colorCoral => 'مرجاني';
-
-  @override
-  String get colorAmber => 'كهرماني';
-
-  @override
-  String get colorSky => 'سماوي';
-
-  @override
-  String get colorPink => 'وردي';
-
-  @override
-  String get colorGraphite => 'رصاصي';
-
-  @override
   String get cancel => 'إلغاء';
 
   @override

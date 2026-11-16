@@ -111,17 +111,17 @@ class _ToastViewState extends State<_ToastView> with SingleTickerProviderStateMi
             onTap: dismiss,
             onVerticalDragEnd: (_) => dismiss(),
             child: Material(
-              color: p.isDark ? const Color(0xFF1E293B) : const Color(0xFF0F172A),
+              color: p.isDark ? const Color(0xFF2B2924) : const Color(0xFF1C1B19),
               elevation: 6,
               shadowColor: Colors.black38,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(12),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 child: Row(
                   children: [
                     Icon(
                       widget.error ? Icons.error_outline_rounded : Icons.check_circle_rounded,
-                      color: widget.error ? const Color(0xFFFCA5A5) : p.isDark ? p.accent : p.second,
+                      color: widget.error ? const Color(0xFFF0A898) : const Color(0xFFD4A657),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
@@ -179,7 +179,7 @@ Future<bool> confirmDialog(
   final result = await showDialog<bool>(
     context: context,
     builder: (ctx) => AlertDialog(
-      icon: icon == null ? null : Icon(icon, color: destructive ? p.danger : p.accent, size: 32),
+      icon: icon == null ? null : Icon(icon, color: destructive ? p.danger : p.text, size: 30),
       title: Text(title, textAlign: icon == null ? null : TextAlign.center),
       content: Text(message),
       actions: [
@@ -191,8 +191,8 @@ Future<bool> confirmDialog(
         FilledButton(
           style: FilledButton.styleFrom(
             minimumSize: const Size(90, 44),
-            backgroundColor: destructive ? p.danger : p.accent,
-            foregroundColor: destructive ? Colors.white : p.onAccent,
+            backgroundColor: destructive ? p.danger : p.ink,
+            foregroundColor: destructive ? Colors.white : p.onInk,
           ),
           onPressed: () => Navigator.pop(ctx, true),
           child: Text(confirm ?? ctx.l10n.confirm),
@@ -215,7 +215,7 @@ Future<void> infoDialog(
   return showDialog<void>(
     context: context,
     builder: (ctx) => AlertDialog(
-      icon: icon == null ? null : Icon(icon, color: error ? p.danger : p.accent, size: 32),
+      icon: icon == null ? null : Icon(icon, color: error ? p.danger : p.text, size: 30),
       title: Text(title, textAlign: icon == null ? null : TextAlign.center),
       content: Text(message),
       actions: [

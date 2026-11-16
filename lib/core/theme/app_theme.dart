@@ -1,70 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../l10n/l10n.dart';
-
-/// لون التطبيق الأساسي (المستخدم بيختاره من الإعدادات).
-class AccentTheme {
-  const AccentTheme(this.id, this.light, this.lightSecond, this.dark, this.darkSecond);
-
-  final String id;
-  final Color light;
-  final Color lightSecond;
-  final Color dark;
-  final Color darkSecond;
-
-  Color accent(Brightness b) => b == Brightness.dark ? dark : light;
-  Color second(Brightness b) => b == Brightness.dark ? darkSecond : lightSecond;
-
-  static const all = <AccentTheme>[
-    AccentTheme('indigo', Color(0xFF4F46E5), Color(0xFF7C3AED), Color(0xFF818CF8), Color(0xFFA78BFA)),
-    AccentTheme('teal', Color(0xFF0D9488), Color(0xFF0891B2), Color(0xFF2DD4BF), Color(0xFF22D3EE)),
-    AccentTheme('emerald', Color(0xFF059669), Color(0xFF65A30D), Color(0xFF34D399), Color(0xFFA3E635)),
-    AccentTheme('coral', Color(0xFFE11D48), Color(0xFFEA580C), Color(0xFFFB7185), Color(0xFFFB923C)),
-    AccentTheme('amber', Color(0xFFD97706), Color(0xFFDC2626), Color(0xFFFBBF24), Color(0xFFF87171)),
-    AccentTheme('sky', Color(0xFF0284C7), Color(0xFF4F46E5), Color(0xFF38BDF8), Color(0xFF818CF8)),
-    AccentTheme('pink', Color(0xFFDB2777), Color(0xFF9333EA), Color(0xFFF472B6), Color(0xFFC084FC)),
-    AccentTheme('graphite', Color(0xFF334155), Color(0xFF0F172A), Color(0xFFCBD5E1), Color(0xFF94A3B8)),
-  ];
-
-  String label(AppLocalizations l) => switch (id) {
-        'teal' => l.colorTeal,
-        'emerald' => l.colorEmerald,
-        'coral' => l.colorCoral,
-        'amber' => l.colorAmber,
-        'sky' => l.colorSky,
-        'pink' => l.colorPink,
-        'graphite' => l.colorGraphite,
-        _ => l.colorIndigo,
-      };
-
-  static AccentTheme byId(String? id) => all.firstWhere((a) => a.id == id, orElse: () => all.first);
-}
-
-/// ألوان البروفايلات (كل بروفايل ليه لون يميّزه).
+/// ألوان البروفايلات (كل بروفايل ليه لون يميّزه) — ألوان ترابية هادية تمشي مع الهوية.
 const profileColors = <Color>[
-  Color(0xFF6366F1),
-  Color(0xFF0EA5E9),
-  Color(0xFF14B8A6),
-  Color(0xFF22C55E),
-  Color(0xFFEAB308),
-  Color(0xFFF97316),
-  Color(0xFFEF4444),
-  Color(0xFFEC4899),
-  Color(0xFFA855F7),
-  Color(0xFF64748B),
+  Color(0xFFB8862F), // نحاس
+  Color(0xFF2F6B4F), // ملكيت
+  Color(0xFF2E4A7A), // لازورد
+  Color(0xFFA33A2A), // عقيق
+  Color(0xFF5B5346), // بازلت فاتح
+  Color(0xFF7A5C8E), // جمشت
+  Color(0xFF3F7A86), // فيروز
+  Color(0xFF8A6A3B), // بردي غامق
 ];
 
 Color profileColor(int index) => profileColors[index.abs() % profileColors.length];
 
-/// ألوان التصميم (Design tokens) — تتغير حسب الوضع الفاتح/الداكن واللون الأساسي.
+/// ألوان التصميم: "حجر وختم" — حجر جيري / بازلت، حبر للأزرار، نحاس للعلامات المهمة بس.
 @immutable
 class Palette extends ThemeExtension<Palette> {
   const Palette({
     required this.isDark,
+    required this.ink,
+    required this.onInk,
     required this.accent,
-    required this.onAccent,
-    required this.second,
+    required this.accentText,
     required this.bg,
     required this.surface,
     required this.surfaceAlt,
@@ -77,49 +36,65 @@ class Palette extends ThemeExtension<Palette> {
   });
 
   final bool isDark;
+
+  /// الزرار الأساسي (حبر في الفاتح، نحاس في الغامق) واللي فوقه.
+  final Color ink;
+  final Color onInk;
+
+  /// النحاس: الختم، التاب المختار، العلامات المهمة. [accentText] نسخة تنفع نص (تباين كفاية).
   final Color accent;
-  final Color onAccent;
-  final Color second;
+  final Color accentText;
+
   final Color bg;
   final Color surface;
+
+  /// خلفية الخانات والأجزاء المميزة جوه الكروت.
   final Color surfaceAlt;
   final Color border;
   final Color text;
   final Color textMuted;
+
+  /// ملكيت (سليم / متأكد منه)، نحاس غامق (تحذير)، عقيق (خطر).
   final Color success;
   final Color warning;
   final Color danger;
 
-  Color get accentSoft => accent.withValues(alpha: isDark ? 0.18 : 0.10);
-
-  LinearGradient get accentGradient => LinearGradient(
-        colors: [accent, second],
-        begin: AlignmentDirectional.topStart,
-        end: AlignmentDirectional.bottomEnd,
-      );
-
   /// لون نص مناسب فوق أي خلفية.
-  static Color onColor(Color c) => c.computeLuminance() > 0.5 ? const Color(0xFF0B0B0F) : Colors.white;
+  static Color onColor(Color c) => c.computeLuminance() > 0.45 ? const Color(0xFF1C1B19) : const Color(0xFFFBF9F4);
 
-  factory Palette.of(AccentTheme accent, Brightness b) {
-    final dark = b == Brightness.dark;
-    final a = accent.accent(b);
-    return Palette(
-      isDark: dark,
-      accent: a,
-      onAccent: onColor(a),
-      second: accent.second(b),
-      bg: dark ? const Color(0xFF0B0B0F) : const Color(0xFFF6F6F8),
-      surface: dark ? const Color(0xFF15151B) : Colors.white,
-      surfaceAlt: dark ? const Color(0xFF1F1F28) : const Color(0xFFEDEDF2),
-      border: dark ? const Color(0x14FFFFFF) : const Color(0xFFE4E4EA),
-      text: dark ? const Color(0xFFF2F2F5) : const Color(0xFF111118),
-      textMuted: dark ? const Color(0xFF9A9AA8) : const Color(0xFF6B6B7B),
-      success: dark ? const Color(0xFF34D399) : const Color(0xFF059669),
-      warning: dark ? const Color(0xFFFBBF24) : const Color(0xFFD97706),
-      danger: dark ? const Color(0xFFF87171) : const Color(0xFFDC2626),
-    );
-  }
+  static const light = Palette(
+    isDark: false,
+    ink: Color(0xFF1C1B19),
+    onInk: Color(0xFFF3EFE7),
+    accent: Color(0xFFB8862F),
+    accentText: Color(0xFF8A5E17),
+    bg: Color(0xFFF3EFE7),
+    surface: Color(0xFFFBF9F4),
+    surfaceAlt: Color(0xFFEDE7DC),
+    border: Color(0xFFDDD5C5),
+    text: Color(0xFF1C1B19),
+    textMuted: Color(0xFF6B655B),
+    success: Color(0xFF2F6B4F),
+    warning: Color(0xFF8A5E17),
+    danger: Color(0xFFA33A2A),
+  );
+
+  static const dark = Palette(
+    isDark: true,
+    ink: Color(0xFFD4A657),
+    onInk: Color(0xFF14130F),
+    accent: Color(0xFFD4A657),
+    accentText: Color(0xFFD4A657),
+    bg: Color(0xFF14130F),
+    surface: Color(0xFF1D1C18),
+    surfaceAlt: Color(0xFF26241F),
+    border: Color(0xFF34312A),
+    text: Color(0xFFEDE7DA),
+    textMuted: Color(0xFFA39C8C),
+    success: Color(0xFF6FB08C),
+    warning: Color(0xFFD4A657),
+    danger: Color(0xFFE07A66),
+  );
 
   @override
   Palette copyWith() => this;
@@ -130,9 +105,10 @@ class Palette extends ThemeExtension<Palette> {
     Color l(Color a, Color b) => Color.lerp(a, b, t)!;
     return Palette(
       isDark: t < 0.5 ? isDark : other.isDark,
+      ink: l(ink, other.ink),
+      onInk: l(onInk, other.onInk),
       accent: l(accent, other.accent),
-      onAccent: l(onAccent, other.onAccent),
-      second: l(second, other.second),
+      accentText: l(accentText, other.accentText),
       bg: l(bg, other.bg),
       surface: l(surface, other.surface),
       surfaceAlt: l(surfaceAlt, other.surfaceAlt),
@@ -155,16 +131,18 @@ class AppTheme {
 
   static const fontFamily = 'Plex';
 
-  static ThemeData build(AccentTheme accent, Brightness brightness) {
-    final p = Palette.of(accent, brightness);
-    final scheme = ColorScheme.fromSeed(
-      seedColor: p.accent,
-      brightness: brightness,
-    ).copyWith(
-      primary: p.accent,
-      onPrimary: p.onAccent,
-      secondary: p.second,
-      onSecondary: Palette.onColor(p.second),
+  /// للبصمات وأرقام المفاتيح.
+  static const monoFamily = 'PlexMono';
+
+  static const radius = 12.0;
+
+  static ThemeData build(Brightness brightness) {
+    final p = brightness == Brightness.dark ? Palette.dark : Palette.light;
+    final scheme = ColorScheme.fromSeed(seedColor: p.accent, brightness: brightness).copyWith(
+      primary: p.ink,
+      onPrimary: p.onInk,
+      secondary: p.accent,
+      onSecondary: Palette.onColor(p.accent),
       surface: p.surface,
       onSurface: p.text,
       onSurfaceVariant: p.textMuted,
@@ -183,21 +161,15 @@ class AppTheme {
       splashFactory: InkRipple.splashFactory,
     );
 
-    final radius = BorderRadius.circular(18);
-    OutlineInputBorder border(Color c, [double w = 1]) => OutlineInputBorder(
-          borderRadius: radius,
-          borderSide: BorderSide(color: c, width: w),
-        );
+    final r = BorderRadius.circular(radius);
+    OutlineInputBorder border(Color c, [double w = 1]) =>
+        OutlineInputBorder(borderRadius: r, borderSide: BorderSide(color: c, width: w));
 
     return base.copyWith(
       extensions: [p],
-      textTheme: base.textTheme.apply(
-        bodyColor: p.text,
-        displayColor: p.text,
-        fontFamily: fontFamily,
-      ),
+      textTheme: base.textTheme.apply(bodyColor: p.text, displayColor: p.text, fontFamily: fontFamily),
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.transparent,
+        backgroundColor: p.bg,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -206,145 +178,128 @@ class AppTheme {
         systemOverlayStyle: p.isDark
             ? SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent)
             : SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
-        titleTextStyle: TextStyle(
-          fontFamily: fontFamily,
-          fontSize: 20,
-          fontWeight: FontWeight.w700,
-          color: p.text,
-        ),
+        titleTextStyle: TextStyle(fontFamily: fontFamily, fontSize: 19, fontWeight: FontWeight.w700, color: p.text),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: p.surfaceAlt,
+        fillColor: p.surface,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-        hintStyle: TextStyle(color: p.textMuted, fontWeight: FontWeight.w500),
+        hintStyle: TextStyle(color: p.textMuted, fontWeight: FontWeight.w400),
         labelStyle: TextStyle(color: p.textMuted),
-        floatingLabelStyle: TextStyle(color: p.accent, fontWeight: FontWeight.w700),
+        floatingLabelStyle: TextStyle(color: p.text, fontWeight: FontWeight.w600),
         prefixIconColor: p.textMuted,
         suffixIconColor: p.textMuted,
-        border: border(Colors.transparent),
-        enabledBorder: border(Colors.transparent),
-        disabledBorder: border(Colors.transparent),
-        focusedBorder: border(p.accent, 1.6),
+        border: border(p.border),
+        enabledBorder: border(p.border),
+        disabledBorder: border(p.border),
+        focusedBorder: border(p.text, 1.5),
         errorBorder: border(p.danger),
-        focusedErrorBorder: border(p.danger, 1.6),
+        focusedErrorBorder: border(p.danger, 1.5),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: p.accent,
-          foregroundColor: p.onAccent,
-          minimumSize: const Size(64, 52),
-          shape: RoundedRectangleBorder(borderRadius: radius),
-          textStyle: const TextStyle(
-            fontFamily: fontFamily,
-            fontWeight: FontWeight.w700,
-            fontSize: 15.5,
-          ),
+          backgroundColor: p.ink,
+          foregroundColor: p.onInk,
+          minimumSize: const Size(64, 50),
+          shape: RoundedRectangleBorder(borderRadius: r),
+          textStyle: const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.w600, fontSize: 15),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: p.text,
-          minimumSize: const Size(64, 50),
+          minimumSize: const Size(64, 48),
           side: BorderSide(color: p.border),
-          shape: RoundedRectangleBorder(borderRadius: radius),
-          textStyle: const TextStyle(
-            fontFamily: fontFamily,
-            fontWeight: FontWeight.w700,
-            fontSize: 14.5,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: r),
+          textStyle: const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.w600, fontSize: 14.5),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: p.accent,
-          textStyle: const TextStyle(
-            fontFamily: fontFamily,
-            fontWeight: FontWeight.w700,
-          ),
+          foregroundColor: p.text,
+          textStyle: const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.w600),
         ),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: SegmentedButton.styleFrom(
           backgroundColor: p.surface,
           foregroundColor: p.textMuted,
-          selectedBackgroundColor: p.accentSoft,
-          selectedForegroundColor: p.accent,
+          selectedBackgroundColor: p.ink,
+          selectedForegroundColor: p.onInk,
           side: BorderSide(color: p.border),
-          textStyle: const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.w700),
+          shape: RoundedRectangleBorder(borderRadius: r),
+          textStyle: const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.w600),
         ),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? p.onAccent : p.textMuted,
-        ),
-        trackColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? p.accent : p.surfaceAlt,
-        ),
-        trackOutlineColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? p.accent : p.border,
-        ),
+        thumbColor: WidgetStateProperty.resolveWith((s) => s.contains(WidgetState.selected) ? p.onInk : p.textMuted),
+        trackColor: WidgetStateProperty.resolveWith((s) => s.contains(WidgetState.selected) ? p.ink : p.surfaceAlt),
+        trackOutlineColor: WidgetStateProperty.resolveWith((s) => s.contains(WidgetState.selected) ? p.ink : p.border),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: WidgetStateProperty.resolveWith((s) => s.contains(WidgetState.selected) ? p.ink : Colors.transparent),
+        checkColor: WidgetStatePropertyAll(p.onInk),
+        side: BorderSide(color: p.textMuted, width: 1.5),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: WidgetStateProperty.resolveWith((s) => s.contains(WidgetState.selected) ? p.ink : p.textMuted),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: p.surface,
+        selectedColor: p.ink,
+        side: BorderSide(color: p.border),
+        labelStyle: TextStyle(fontFamily: fontFamily, color: p.text, fontWeight: FontWeight.w500),
+        secondaryLabelStyle: TextStyle(fontFamily: fontFamily, color: p.onInk, fontWeight: FontWeight.w600),
+        checkmarkColor: p.onInk,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: p.ink,
+        foregroundColor: p.onInk,
+        elevation: 1,
+        highlightElevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: r),
+        extendedTextStyle: const TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.w600, fontSize: 15),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: p.isDark ? const Color(0xFF1E293B) : const Color(0xFF0F172A),
-        contentTextStyle: const TextStyle(
-          fontFamily: fontFamily,
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
-        ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        backgroundColor: p.isDark ? const Color(0xFF2B2924) : const Color(0xFF1C1B19),
+        contentTextStyle: const TextStyle(fontFamily: fontFamily, color: Color(0xFFF3EFE7), fontWeight: FontWeight.w500),
+        shape: RoundedRectangleBorder(borderRadius: r),
         insetPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: p.surface,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
-        titleTextStyle: TextStyle(
-          fontFamily: fontFamily,
-          fontSize: 19,
-          fontWeight: FontWeight.w700,
-          color: p.text,
-        ),
-        contentTextStyle: TextStyle(
-          fontFamily: fontFamily,
-          fontSize: 15,
-          height: 1.6,
-          color: p.textMuted,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: p.border)),
+        titleTextStyle: TextStyle(fontFamily: fontFamily, fontSize: 18, fontWeight: FontWeight.w700, color: p.text),
+        contentTextStyle: TextStyle(fontFamily: fontFamily, fontSize: 14.5, height: 1.6, color: p.textMuted),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: p.surface,
         surfaceTintColor: Colors.transparent,
         showDragHandle: true,
         dragHandleColor: p.border,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-        ),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       ),
       listTileTheme: ListTileThemeData(
-        iconColor: p.textMuted,
+        iconColor: p.text,
         textColor: p.text,
-        shape: RoundedRectangleBorder(borderRadius: radius),
+        shape: RoundedRectangleBorder(borderRadius: r),
       ),
       dividerTheme: DividerThemeData(color: p.border, thickness: 1, space: 1),
       progressIndicatorTheme: ProgressIndicatorThemeData(color: p.accent),
       tooltipTheme: TooltipThemeData(
-        textStyle: const TextStyle(fontFamily: fontFamily, color: Colors.white),
-        decoration: BoxDecoration(
-          color: const Color(0xFF0F172A),
-          borderRadius: BorderRadius.circular(10),
-        ),
+        textStyle: const TextStyle(fontFamily: fontFamily, color: Color(0xFFF3EFE7)),
+        decoration: BoxDecoration(color: const Color(0xFF1C1B19), borderRadius: BorderRadius.circular(8)),
       ),
       textSelectionTheme: TextSelectionThemeData(
-        cursorColor: p.accent,
-        selectionColor: p.accent.withValues(alpha: 0.28),
+        cursorColor: p.text,
+        selectionColor: p.accent.withValues(alpha: 0.3),
         selectionHandleColor: p.accent,
       ),
       pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {
-          TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
-        },
+        builders: {TargetPlatform.android: FadeForwardsPageTransitionsBuilder()},
       ),
     );
   }

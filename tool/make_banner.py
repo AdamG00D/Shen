@@ -13,7 +13,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parent.parent
 FONTS = ROOT / "assets/fonts"
 W, H = 1600, 560
-TOP, BOTTOM = (49, 46, 129), (91, 33, 182)
+TOP, BOTTOM = (28, 27, 25), (20, 19, 15)  # بازلت
 
 TEXT = {
     "ar": ("شِن", "مفاتيح PGP بتاعتك في الحفظ والصون", ["من غير إنترنت", "بروفايلات منفصلة", "OpenPGP قياسي", "مفتوح المصدر"]),
@@ -35,7 +35,7 @@ def make(lang: str) -> None:
     ld = ImageDraw.Draw(layer)
     # دواير خفيفة في الخلفية (حلقات شِن)
     for x, y, r in [(1350, 90, 220), (180, 520, 260), (900, -60, 160)]:
-        ld.ellipse((x - r, y - r, x + r, y + r), outline=(255, 255, 255, 20), width=26)
+        ld.ellipse((x - r, y - r, x + r, y + r), outline=(201, 150, 59, 22), width=22)
 
     img.alpha_composite(layer)
     layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
@@ -57,15 +57,15 @@ def make(lang: str) -> None:
     for c in chips:
         w = ld.textlength(c, font=f, direction=direction) + 48
         x0, x1 = (x - w, x) if rtl else (x, x + w)
-        ld.rounded_rectangle((x0, y, x1, y + 58), radius=29, fill=(255, 255, 255, 40))
+        ld.rounded_rectangle((x0, y, x1, y + 58), radius=29, outline=(243, 239, 231, 90), width=2)
         boxes.append((c, (x0 + x1) / 2))
         x = x0 - 14 if rtl else x1 + 14
     img.alpha_composite(layer)
     d = ImageDraw.Draw(img)
     for c, cx in boxes:
-        d.text((cx, y + 29), c, font=f, fill="white", anchor="mm", direction=direction)
-    d.text((tx, 120 + oy), title, font=font("Bold", 120), fill="white", anchor=anchor, direction=direction)
-    d.text((tx, 285 + oy), tagline, font=font("Medium", 46), fill=(226, 232, 240), anchor=anchor, direction=direction)
+        d.text((cx, y + 29), c, font=f, fill=(237, 231, 218), anchor="mm", direction=direction)
+    d.text((tx, 120 + oy), title, font=font("Bold", 120), fill=(243, 239, 231), anchor=anchor, direction=direction)
+    d.text((tx, 285 + oy), tagline, font=font("Medium", 46), fill=(201, 150, 59), anchor=anchor, direction=direction)
     out = ROOT / f"docs/images/banner.{lang}.png"
     img.convert("RGB").save(out, optimize=True)
     print("✅", out.relative_to(ROOT))

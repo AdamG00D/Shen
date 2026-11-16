@@ -16,6 +16,7 @@ class ToolsTab extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
       children: [
+        PageTitle(l.tools),
         SectionLabel(l.text),
         _Tool(icon: Icons.lock_rounded, title: l.encryptText, subtitle: l.encryptTextHelp, onTap: () => go(const EncryptTextScreen())),
         _Tool(icon: Icons.lock_open_rounded, title: l.decryptVerify, subtitle: l.decryptVerifyShort, onTap: () => go(const DecryptTextScreen())),

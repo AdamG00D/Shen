@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'theme/app_theme.dart';
 
 /// إعدادات الشكل والسلوك (مش سرية: لغة، ثيم، مدد القفل). المفاتيح والبيانات كلها في الخزنة.
 class AppSettings extends ChangeNotifier {
@@ -13,7 +12,6 @@ class AppSettings extends ChangeNotifier {
   /// null = لغة الموبايل.
   String? language;
   ThemeMode themeMode = ThemeMode.system;
-  String accent = 'indigo';
 
   /// القفل التلقائي بعد ما التطبيق يروح في الخلفية (ثواني). 0 = على طول.
   int autoLockSeconds = 60;
@@ -28,13 +26,10 @@ class AppSettings extends ChangeNotifier {
   static const passCacheChoices = [0, 1, 5, 15];
   static const clipboardChoices = [20, 45, 90];
 
-  AccentTheme get accentTheme => AccentTheme.byId(accent);
-
   Future<void> load() async {
     final p = _prefs = await SharedPreferences.getInstance();
     language = p.getString('language');
     themeMode = ThemeMode.values.firstWhere((m) => m.name == p.getString('theme'), orElse: () => ThemeMode.system);
-    accent = p.getString('accent') ?? 'indigo';
     autoLockSeconds = _pick(p.getInt('autoLock'), autoLockChoices, 60);
     passCacheMinutes = _pick(p.getInt('passCache'), passCacheChoices, 0);
     clipboardSeconds = _pick(p.getInt('clipboard'), clipboardChoices, 45);
@@ -45,7 +40,6 @@ class AppSettings extends ChangeNotifier {
   Future<void> update({
     String? Function()? language,
     ThemeMode? themeMode,
-    String? accent,
     int? autoLockSeconds,
     int? passCacheMinutes,
     int? clipboardSeconds,
@@ -58,10 +52,6 @@ class AppSettings extends ChangeNotifier {
     if (themeMode != null) {
       this.themeMode = themeMode;
       await p.setString('theme', themeMode.name);
-    }
-    if (accent != null) {
-      this.accent = accent;
-      await p.setString('accent', accent);
     }
     if (autoLockSeconds != null) {
       this.autoLockSeconds = autoLockSeconds;

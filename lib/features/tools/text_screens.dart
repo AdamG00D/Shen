@@ -42,7 +42,7 @@ class _TextArea extends StatelessWidget {
           autocorrect: false,
           enableIMEPersonalizedLearning: false,
           textDirection: mono ? TextDirection.ltr : null,
-          style: mono ? const TextStyle(fontFamily: 'monospace', fontSize: 12.5) : null,
+          style: mono ? const TextStyle(fontFamily: AppTheme.monoFamily, fontSize: 12.5) : null,
           decoration: InputDecoration(hintText: hint, alignLabelWithHint: true),
         ),
         Row(

@@ -160,10 +160,10 @@ class _ImportScreenState extends State<ImportScreen> {
           ],
           if (_hasSecret)
             AppCard(
-              color: p.accentSoft,
+              color: p.surfaceAlt,
               child: Row(
                 children: [
-                  Icon(Icons.vpn_key_rounded, color: p.accent),
+                  Icon(Icons.vpn_key_outlined, color: p.text),
                   const SizedBox(width: 10),
                   Expanded(child: Text(l.secretGoesToMyKeys, style: const TextStyle(height: 1.5))),
                 ],

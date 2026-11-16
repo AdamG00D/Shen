@@ -116,30 +116,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get colorIndigo => 'Indigo';
-
-  @override
-  String get colorTeal => 'Teal';
-
-  @override
-  String get colorEmerald => 'Emerald';
-
-  @override
-  String get colorCoral => 'Coral';
-
-  @override
-  String get colorAmber => 'Amber';
-
-  @override
-  String get colorSky => 'Sky';
-
-  @override
-  String get colorPink => 'Pink';
-
-  @override
-  String get colorGraphite => 'Graphite';
-
-  @override
   String get cancel => 'Cancel';
 
   @override

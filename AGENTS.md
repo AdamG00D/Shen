@@ -90,7 +90,13 @@ lib/
   Arabic.
 - Layout flips RTL / LTR — always `EdgeInsetsDirectional` / `AlignmentDirectional`, never fixed left / right.
   Fingerprints, key ids, emails and armored text are always shown LTR.
-- Colours only through `context.palette`. Font: IBM Plex Sans Arabic (`Plex`), weights 400–700.
+- **Identity ("stone and seal")**: limestone / basalt grounds, ink for primary buttons (brass in dark mode), brass
+  (`palette.accent` / `accentText`) only for marks that matter — the cartouche bar, the selected tab, the default key —
+  malachite for verified, carnelian for danger. Hairline borders, 12 px radius, no coloured icon tiles (`IconBadge` is a
+  thin ring), statuses are a dot + coloured text (`Chip2`). Names of keys and the profile switcher sit in a `Cartouche`;
+  signature results use `Seal`. One fixed identity: there is no accent picker.
+- Colours only through `context.palette`. Fonts: IBM Plex Sans Arabic (`Plex`, 400–700) for all text, IBM Plex Mono
+  (`AppTheme.monoFamily`) only for fingerprints, key ids and armored text. No display/Kufi font.
 - Messages: `showToast` (never `SnackBar`). Dialogs: `confirmDialog` / `infoDialog` / `warnDialog` (dangerous actions,
   needs "I understand"). Bottom sheets: `showActionSheet`. Long work: `busy(context, () async {...})` — it shows the
   spinner, maps errors to text and swallows `Cancelled`.

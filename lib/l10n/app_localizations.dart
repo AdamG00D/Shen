@@ -260,54 +260,6 @@ abstract class AppLocalizations {
   /// **'{count} دقيقة'**
   String minutes(int count);
 
-  /// No description provided for @colorIndigo.
-  ///
-  /// In ar, this message translates to:
-  /// **'نيلي'**
-  String get colorIndigo;
-
-  /// No description provided for @colorTeal.
-  ///
-  /// In ar, this message translates to:
-  /// **'فيروزي'**
-  String get colorTeal;
-
-  /// No description provided for @colorEmerald.
-  ///
-  /// In ar, this message translates to:
-  /// **'زمردي'**
-  String get colorEmerald;
-
-  /// No description provided for @colorCoral.
-  ///
-  /// In ar, this message translates to:
-  /// **'مرجاني'**
-  String get colorCoral;
-
-  /// No description provided for @colorAmber.
-  ///
-  /// In ar, this message translates to:
-  /// **'كهرماني'**
-  String get colorAmber;
-
-  /// No description provided for @colorSky.
-  ///
-  /// In ar, this message translates to:
-  /// **'سماوي'**
-  String get colorSky;
-
-  /// No description provided for @colorPink.
-  ///
-  /// In ar, this message translates to:
-  /// **'وردي'**
-  String get colorPink;
-
-  /// No description provided for @colorGraphite.
-  ///
-  /// In ar, this message translates to:
-  /// **'رصاصي'**
-  String get colorGraphite;
-
   /// No description provided for @cancel.
   ///
   /// In ar, this message translates to:

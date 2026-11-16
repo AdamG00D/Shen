@@ -40,13 +40,12 @@ class _ShenAppState extends State<ShenApp> {
 
   @override
   Widget build(BuildContext context) {
-    final accent = _settings.accentTheme;
     return MaterialApp(
       navigatorKey: rootNavigatorKey,
       onGenerateTitle: (c) => c.l10n.appName,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.build(accent, Brightness.light),
-      darkTheme: AppTheme.build(accent, Brightness.dark),
+      theme: AppTheme.build(Brightness.light),
+      darkTheme: AppTheme.build(Brightness.dark),
       themeMode: _settings.themeMode,
       locale: _settings.language == null ? null : Locale(_settings.language!),
       supportedLocales: L10n.supported,

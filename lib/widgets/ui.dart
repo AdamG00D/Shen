@@ -30,13 +30,7 @@ class AppScaffold extends StatelessWidget {
     final p = context.palette;
     return Scaffold(
       backgroundColor: p.bg,
-      appBar: showAppBar
-          ? AppBar(
-              title: title == null ? null : Text(title!),
-              actions: actions,
-              leading: leading,
-            )
-          : null,
+      appBar: showAppBar ? AppBar(title: title == null ? null : Text(title!), actions: actions, leading: leading) : null,
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottom,
       body: showAppBar || !safeTop ? body : SafeArea(bottom: false, child: body),
@@ -44,13 +38,13 @@ class AppScaffold extends StatelessWidget {
   }
 }
 
-/// بطاقة سطحية بحدود ناعمة.
+/// كارت بحدود رفيعة.
 class AppCard extends StatelessWidget {
   const AppCard({
     super.key,
     required this.child,
     this.padding = const EdgeInsets.all(16),
-    this.radius = 22,
+    this.radius = AppTheme.radius,
     this.onTap,
     this.onLongPress,
     this.color,
@@ -75,16 +69,12 @@ class AppCard extends StatelessWidget {
         side: BorderSide(color: borderColor ?? p.border),
       ),
       clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        onLongPress: onLongPress,
-        child: Padding(padding: padding, child: child),
-      ),
+      child: InkWell(onTap: onTap, onLongPress: onLongPress, child: Padding(padding: padding, child: child)),
     );
   }
 }
 
-/// زر أساسي (ممتلئ بلون التطبيق).
+/// الزرار الأساسي (حبر في الفاتح، نحاس في الغامق).
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     super.key,
@@ -92,7 +82,7 @@ class PrimaryButton extends StatelessWidget {
     required this.onPressed,
     this.icon,
     this.loading = false,
-    this.height = 54,
+    this.height = 52,
     this.color,
   });
 
@@ -106,8 +96,8 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.palette;
-    final bg = color ?? p.accent;
-    final fg = Palette.onColor(bg);
+    final bg = color ?? p.ink;
+    final fg = color == null ? p.onInk : Palette.onColor(bg);
     final enabled = onPressed != null && !loading;
     return SizedBox(
       height: height,
@@ -117,17 +107,17 @@ class PrimaryButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           backgroundColor: bg,
           foregroundColor: fg,
-          disabledBackgroundColor: bg.withValues(alpha: 0.45),
-          disabledForegroundColor: fg.withValues(alpha: 0.8),
+          disabledBackgroundColor: bg.withValues(alpha: 0.4),
+          disabledForegroundColor: fg.withValues(alpha: 0.85),
           minimumSize: Size(64, height),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(height / 2.6)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radius)),
         ),
         child: loading
-            ? SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.4, color: fg))
+            ? SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.2, color: fg))
             : Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (icon != null) ...[Icon(icon, size: 20), const SizedBox(width: 8)],
+                  if (icon != null) ...[Icon(icon, size: 19), const SizedBox(width: 8)],
                   Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)),
                 ],
               ),
@@ -136,16 +126,9 @@ class PrimaryButton extends StatelessWidget {
   }
 }
 
-/// زر ثانوي (هادي).
+/// زرار ثانوي: إطار رفيع من غير خلفية.
 class SecondaryButton extends StatelessWidget {
-  const SecondaryButton({
-    super.key,
-    required this.label,
-    required this.onPressed,
-    this.icon,
-    this.color,
-    this.height = 50,
-  });
+  const SecondaryButton({super.key, required this.label, required this.onPressed, this.icon, this.color, this.height = 48});
 
   final String label;
   final VoidCallback? onPressed;
@@ -160,19 +143,19 @@ class SecondaryButton extends StatelessWidget {
     return SizedBox(
       height: height,
       width: double.infinity,
-      child: TextButton(
+      child: OutlinedButton(
         onPressed: onPressed,
-        style: TextButton.styleFrom(
+        style: OutlinedButton.styleFrom(
           foregroundColor: fg,
-          backgroundColor: color == null ? p.surfaceAlt : fg.withValues(alpha: 0.10),
+          side: BorderSide(color: color == null ? p.border : fg.withValues(alpha: 0.5)),
           minimumSize: Size(64, height),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(height / 2.6)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radius)),
           textStyle: const TextStyle(fontFamily: AppTheme.fontFamily, fontWeight: FontWeight.w600, fontSize: 14.5),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (icon != null) ...[Icon(icon, size: 19), const SizedBox(width: 8)],
+            if (icon != null) ...[Icon(icon, size: 18), const SizedBox(width: 8)],
             Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)),
           ],
         ),
@@ -181,9 +164,9 @@ class SecondaryButton extends StatelessWidget {
   }
 }
 
-/// أيقونة في مربع ملوّن ناعم.
+/// أيقونة جوه دايرة بخط رفيع (من غير خلفية ملوّنة).
 class IconBadge extends StatelessWidget {
-  const IconBadge({super.key, required this.icon, this.color, this.size = 46, this.filled = false});
+  const IconBadge({super.key, required this.icon, this.color, this.size = 44, this.filled = false});
 
   final IconData icon;
   final Color? color;
@@ -193,15 +176,16 @@ class IconBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.palette;
-    final c = color ?? p.accent;
+    final c = color ?? p.text;
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: filled ? c : c.withValues(alpha: p.isDark ? 0.18 : 0.11),
-        borderRadius: BorderRadius.circular(size * 0.34),
+        color: filled ? c : null,
+        shape: BoxShape.circle,
+        border: filled ? null : Border.all(color: color == null ? p.border : c.withValues(alpha: 0.45)),
       ),
-      child: Icon(icon, color: filled ? Palette.onColor(c) : c, size: size * 0.5),
+      child: Icon(icon, color: filled ? Palette.onColor(c) : c, size: size * 0.46),
     );
   }
 }
@@ -217,14 +201,11 @@ class SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = context.palette;
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(6, 18, 6, 10),
+      padding: const EdgeInsetsDirectional.fromSTEB(4, 20, 4, 10),
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              text,
-              style: TextStyle(color: p.textMuted, fontWeight: FontWeight.w600, fontSize: 13),
-            ),
+            child: Text(text, style: TextStyle(color: p.textMuted, fontWeight: FontWeight.w600, fontSize: 13)),
           ),
           ?trailing,
         ],
@@ -233,7 +214,31 @@ class SectionLabel extends StatelessWidget {
   }
 }
 
-/// حالة فاضية: أيقونة + عنوان + شرح + زر اختياري.
+/// عنوان الصفحة الكبير (مفاتيحي، جهات الاتصال...).
+class PageTitle extends StatelessWidget {
+  const PageTitle(this.text, {super.key, this.trailing});
+
+  final String text;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(4, 8, 4, 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Text(text, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700, height: 1.25)),
+          ),
+          ?trailing,
+        ],
+      ),
+    );
+  }
+}
+
+/// حالة فاضية: حلقة رفيعة فيها أيقونة + عنوان + شرح + زرار اختياري.
 class EmptyState extends StatelessWidget {
   const EmptyState({super.key, required this.icon, required this.title, this.message, this.action});
 
@@ -252,10 +257,10 @@ class EmptyState extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 92,
-              height: 92,
-              decoration: BoxDecoration(color: p.accentSoft, borderRadius: BorderRadius.circular(32)),
-              child: Icon(icon, size: 42, color: p.accent),
+              width: 84,
+              height: 84,
+              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: p.accent, width: 1.5)),
+              child: Icon(icon, size: 34, color: p.text),
             ),
             const SizedBox(height: 20),
             Text(title, textAlign: TextAlign.center, style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w700)),
@@ -271,7 +276,7 @@ class EmptyState extends StatelessWidget {
   }
 }
 
-/// شارة صغيرة (عدد الرسايل الجديدة...).
+/// شارة رقم صغيرة.
 class CountBadge extends StatelessWidget {
   const CountBadge(this.count, {super.key});
 
@@ -285,10 +290,10 @@ class CountBadge extends StatelessWidget {
       height: 22,
       padding: const EdgeInsets.symmetric(horizontal: 7),
       alignment: Alignment.center,
-      decoration: BoxDecoration(color: p.accent, borderRadius: BorderRadius.circular(11)),
+      decoration: BoxDecoration(color: p.ink, borderRadius: BorderRadius.circular(11)),
       child: Text(
         count > 99 ? '99+' : '$count',
-        style: TextStyle(color: p.onAccent, fontSize: 12, fontWeight: FontWeight.w700, height: 1.1),
+        style: TextStyle(color: p.onInk, fontSize: 12, fontWeight: FontWeight.w700, height: 1.1),
       ),
     );
   }
@@ -325,7 +330,7 @@ class SettingTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         child: Row(
           children: [
-            IconBadge(icon: icon, size: 40, color: color),
+            Icon(icon, size: 22, color: color ?? p.text),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
@@ -339,7 +344,10 @@ class SettingTile extends StatelessWidget {
                 ],
               ),
             ),
-            if (trailing != null) ...[const SizedBox(width: 8), trailing!],
+            if (trailing != null)
+              ...[const SizedBox(width: 8), trailing!]
+            else if (onTap != null)
+              Icon(Icons.chevron_right_rounded, color: p.textMuted, size: 20),
           ],
         ),
       ),
@@ -352,6 +360,33 @@ String initialOf(String name) {
   final t = name.trim();
   if (t.isEmpty) return '?';
   return String.fromCharCode(t.runes.first).toUpperCase();
+}
+
+/// حرف أول جوه حلقة (زي الختم): لون الحلقة بيقول نوع المفتاح.
+class Monogram extends StatelessWidget {
+  const Monogram({super.key, required this.name, this.ring, this.size = 44, this.icon});
+
+  final String name;
+  final Color? ring;
+  final double size;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    return Container(
+      width: size,
+      height: size,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: ring ?? p.border, width: 2)),
+      child: icon != null
+          ? Icon(icon, size: size * 0.45, color: p.text)
+          : Text(
+              initialOf(name),
+              style: TextStyle(fontSize: size * 0.42, fontWeight: FontWeight.w700, height: 1.1, color: p.text),
+            ),
+    );
+  }
 }
 
 /// دايرة بلون البروفايل وأول حرف من اسمه.
@@ -381,7 +416,48 @@ class ProfileDot extends StatelessWidget {
   }
 }
 
-/// شارة صغيرة ملوّنة (منتهي، ملغي، متأكد منه...).
+/// الخرطوش: إطار بيضاوي فيه الاسم وفي آخره خط نحاسي — زي الخرطوش اللي كان بيحمي اسم الملك.
+class Cartouche extends StatelessWidget {
+  const Cartouche({super.key, required this.child, this.height = 44, this.onTap, this.barColor});
+
+  final Widget child;
+  final double height;
+  final VoidCallback? onTap;
+  final Color? barColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.palette;
+    return Material(
+      color: Colors.transparent,
+      shape: StadiumBorder(side: BorderSide(color: p.text, width: 1.5)),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: SizedBox(
+          height: height,
+          child: Padding(
+            padding: EdgeInsetsDirectional.only(start: height * 0.36, end: height * 0.28),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(child: child),
+                SizedBox(width: height * 0.22),
+                Container(
+                  width: 3.5,
+                  height: height * 0.55,
+                  decoration: BoxDecoration(color: barColor ?? p.accent, borderRadius: BorderRadius.circular(2)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// حالة صغيرة (الافتراضي، منتهي، متأكد منه...): نقطة + نص ملوّن، من غير خلفية.
 class Chip2 extends StatelessWidget {
   const Chip2(this.label, {super.key, this.color, this.icon});
 
@@ -393,16 +469,13 @@ class Chip2 extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = context.palette;
     final c = color ?? p.textMuted;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(color: c.withValues(alpha: p.isDark ? 0.18 : 0.11), borderRadius: BorderRadius.circular(8)),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) ...[Icon(icon, size: 13, color: c), const SizedBox(width: 4)],
-          Text(label, style: TextStyle(color: c, fontSize: 11.5, fontWeight: FontWeight.w700, height: 1.2)),
-        ],
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(width: 6, height: 6, decoration: BoxDecoration(color: c, shape: BoxShape.circle)),
+        const SizedBox(width: 5),
+        Text(label, style: TextStyle(color: c, fontSize: 12, fontWeight: FontWeight.w600, height: 1.2)),
+      ],
     );
   }
 }

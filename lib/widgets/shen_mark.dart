@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 import '../core/theme/app_theme.dart';
 
-/// علامة "شِن": حلقة حبل مقفولة فوق خط مستقيم — رمز الحماية عند المصريين القدام.
+/// علامة "شِن": حلقة حبل مقفولة (خط داخلي رفيع زي الحبل، وقرص الشمس في النص) معقودة فوق خط مستقيم —
+/// رمز الحماية عند المصريين القدام. نفس رسمة أيقونة التطبيق (tool/generate_icon.py).
 class ShenMark extends StatelessWidget {
-  const ShenMark({super.key, this.size = 88});
+  const ShenMark({super.key, this.size = 96, this.color});
 
   final double size;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    final p = context.palette;
-    return Container(
+    return SizedBox(
       width: size,
       height: size,
-      decoration: BoxDecoration(gradient: p.accentGradient, borderRadius: BorderRadius.circular(size * 0.3)),
-      child: CustomPaint(painter: ShenPainter(Palette.onColor(p.accent))),
+      child: CustomPaint(painter: ShenPainter(color ?? context.palette.accent)),
     );
   }
 }
@@ -27,32 +27,32 @@ class ShenPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final s = size.shortestSide;
-    final stroke = s * 0.085;
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = stroke
-      ..strokeCap = StrokeCap.round;
-    final r = s * 0.22;
-    final c = Offset(size.width / 2, size.height * 0.43);
-    canvas.drawCircle(c, r, paint);
-    final y = c.dy + r + stroke * 0.55;
-    canvas.drawLine(Offset(c.dx - r * 1.15, y), Offset(c.dx + r * 1.15, y), paint);
-    // فتحة مفتاح جوه الحلقة
+    // نفس إحداثيات الأيقونة (مساحة 160×160)
+    final k = size.shortestSide / 160;
+    canvas.save();
+    canvas.translate((size.width - 160 * k) / 2, (size.height - 160 * k) / 2);
+    canvas.scale(k);
     final fill = Paint()..color = color;
-    final hr = r * 0.26;
-    final hc = Offset(c.dx, c.dy - r * 0.14);
-    canvas.drawCircle(hc, hr, fill);
-    canvas.drawPath(
-      Path()
-        ..moveTo(hc.dx - hr * 0.55, hc.dy + hr * 0.3)
-        ..lineTo(hc.dx + hr * 0.55, hc.dy + hr * 0.3)
-        ..lineTo(hc.dx + hr * 0.9, hc.dy + hr * 2.2)
-        ..lineTo(hc.dx - hr * 0.9, hc.dy + hr * 2.2)
-        ..close(),
-      fill,
+    canvas.drawCircle(
+      const Offset(80, 68),
+      33,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 10,
     );
+    canvas.drawCircle(
+      const Offset(80, 68),
+      22,
+      Paint()
+        ..color = color.withValues(alpha: 0.5)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5,
+    );
+    canvas.drawCircle(const Offset(80, 68), 6, fill);
+    canvas.drawRRect(RRect.fromLTRBR(71, 96, 89, 112, const Radius.circular(3)), fill);
+    canvas.drawRRect(RRect.fromLTRBR(36, 110, 124, 121, const Radius.circular(5.5)), fill);
+    canvas.restore();
   }
 
   @override

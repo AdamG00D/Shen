@@ -3,7 +3,7 @@ class AppConfig {
   AppConfig._();
 
   /// لازم يتغيّر مع `version` في pubspec.yaml.
-  static const appVersion = '1.0.0';
+  static const appVersion = '1.1.0';
 
   static const repoUrl = 'https://github.com/AdamG00D/Shen';
 

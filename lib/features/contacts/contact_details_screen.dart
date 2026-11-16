@@ -8,7 +8,6 @@ import '../../l10n/l10n.dart';
 import '../../widgets/feedback.dart';
 import '../../widgets/fingerprint.dart';
 import '../../widgets/key_picker.dart';
-import '../../widgets/key_tile.dart';
 import '../../widgets/prompts.dart';
 import '../../widgets/ui.dart';
 import '../keys/key_details_screen.dart';
@@ -98,15 +97,13 @@ class _Details extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final p = context.palette;
-    final chips = keyChips(context, k, showScope: false);
     return AppScaffold(
       title: l.contact,
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
         children: [
           KeyHeader(k: k),
-          if (chips.isNotEmpty) ...[const SizedBox(height: 10), Wrap(spacing: 6, runSpacing: 6, children: chips)],
-          SectionLabel(l.fingerprint),
+          const SizedBox(height: 18),
           FingerprintView(fp: k.fp),
           const SizedBox(height: 12),
           AppCard(

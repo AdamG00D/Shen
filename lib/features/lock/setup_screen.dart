@@ -69,7 +69,7 @@ class _SetupScreenState extends State<SetupScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(22, 28, 22, 28),
         children: [
-          const Center(child: ShenMark()),
+          const Center(child: ShenMark(size: 110)),
           const SizedBox(height: 18),
           Text(l.appName, textAlign: TextAlign.center, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
           const SizedBox(height: 6),

@@ -40,7 +40,7 @@ class OutputBox extends StatelessWidget {
                 : SelectableText(
                     text,
                     textDirection: mono ? TextDirection.ltr : null,
-                    style: TextStyle(fontFamily: mono ? 'monospace' : null, fontSize: mono ? 12.5 : 15, height: 1.5, color: p.text),
+                    style: TextStyle(fontFamily: mono ? AppTheme.monoFamily : null, fontSize: mono ? 12.5 : 15, height: 1.5, color: p.text),
                   ),
           ),
         ),

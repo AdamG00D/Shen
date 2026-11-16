@@ -19,6 +19,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+          # مكتبات Gradle تفضل محفوظة بين الـ runs — طلبات أقل على Maven Central (اللي بيرد 429 أحياناً)
+          cache: gradle
       - uses: subosito/flutter-action@v2
         with:
           channel: stable

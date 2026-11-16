@@ -293,6 +293,21 @@ class ApiTest {
     }
 
     @Test
+    fun revokedDefaultKeyIsSkippedWhenEncryptingToSelf() {
+        val a = api()
+        a.c("setup", "password" to "master password", "profileName" to "P", "color" to 1)
+        val p = a.active()
+        val mine = a.newKey(p, "Alice", pass = null)
+        val other = api(File(tmp.root, "o"), SoftwareKeyWrapper())
+        other.c("setup", "password" to "other master", "profileName" to "x", "color" to 0)
+        val bob = other.newKey(other.active(), "Bob", null)
+        a.c("importKeys", "profile" to p, "data" to other.c("exportPublic", "profile" to other.active(), "fps" to listOf(bob)), "scope" to "profile")
+        a.c("revokeKey", "profile" to p, "fp" to mine, "reason" to "retired")
+        val ct = a.c("encryptText", "profile" to p, "text" to "hi", "recipients" to listOf(bob)) as String
+        assertEquals("hi", (other.c("decryptText", "profile" to other.active(), "data" to ct) as Map<*, *>)["text"])
+    }
+
+    @Test
     fun hostileInputDoesNotCrash() {
         val a = api()
         a.c("setup", "password" to "master password", "profileName" to "P", "color" to 1)

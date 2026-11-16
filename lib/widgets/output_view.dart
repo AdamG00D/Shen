@@ -34,11 +34,14 @@ class OutputBox extends StatelessWidget {
           decoration: BoxDecoration(color: p.surfaceAlt, borderRadius: BorderRadius.circular(16)),
           padding: const EdgeInsets.all(14),
           child: SingleChildScrollView(
-            child: SelectableText(
-              text,
-              textDirection: mono ? TextDirection.ltr : null,
-              style: TextStyle(fontFamily: mono ? 'monospace' : null, fontSize: mono ? 12.5 : 15, height: 1.5, color: p.text),
-            ),
+            // النص السري مينفعش يتحدد ويتنسخ بنسخ النظام العادي (مش هيتمسح من الحافظة) — زرار "نسخ" بس
+            child: sensitive
+                ? Text(text, style: TextStyle(fontSize: 15, height: 1.5, color: p.text))
+                : SelectableText(
+                    text,
+                    textDirection: mono ? TextDirection.ltr : null,
+                    style: TextStyle(fontFamily: mono ? 'monospace' : null, fontSize: mono ? 12.5 : 15, height: 1.5, color: p.text),
+                  ),
           ),
         ),
         const SizedBox(height: 12),

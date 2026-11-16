@@ -92,6 +92,11 @@ flutter {
 dependencies {
     // OpenPGP: PGPainless (فوق Bouncy Castle) — اتعمل له فحص أمني من Cure53
     implementation("org.pgpainless:pgpainless-core:2.0.4")
+    // Bouncy Castle أحدث من اللي PGPainless 2.0.4 بيطلبه (1.84): 1.85 فيها إصلاح CVE-2026-8763 وCVE-2026-13506.
+    // ⚠️ متطلعش لـ 1.87 قبل تحديث PGPainless: مفاتيح v6 بتبطل تشفّر (PgpTest.generatesUsableKeysOfEveryKind بيمسكها).
+    implementation("org.bouncycastle:bcprov-jdk18on:1.85")
+    implementation("org.bouncycastle:bcpg-jdk18on:1.85")
+    implementation("org.bouncycastle:bcutil-jdk18on:1.85")
     // البصمة مربوطة بمفتاح الـ Keystore (CryptoObject)
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("androidx.fragment:fragment-ktx:1.8.9")

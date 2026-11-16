@@ -476,8 +476,10 @@ class Api(
         val fps = a.strList("recipients").toMutableList()
         val signFp = a.strOrNull("signWith")
         if (a.boolOr("self", true)) {
+            // مفتاحي أنا (عشان أقرا اللي بعته بعدين) — لو منتهي أو ملغي بنتخطاه بدل ما العملية كلها تفشل
             val self = signFp ?: store.data(profile).defaultKey
-            if (self != null) fps += self
+            val usable = self != null && runCatching { pgp.summary(myKey(profile, self))["canEncrypt"] == true }.getOrDefault(false)
+            if (usable) fps += self!!
         }
         val recipients = recipientCerts(profile, fps)
         val signer = signFp?.let { myKey(profile, it) }

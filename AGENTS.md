@@ -119,6 +119,12 @@ lib/
   GnuPG; `GpgInteropTest` checks both directions. Backups use RFC 9580 (SEIPDv2 + Argon2) on purpose.
 - Android: `FLAG_SECURE`, `allowBackup=false` + data-extraction rules, data under `noBackupFilesDir`, no INTERNET.
 
+## Pinned dependencies
+
+- Bouncy Castle is pinned to **1.85** in `android/app/build.gradle.kts` (PGPainless 2.0.4 asks for 1.84, which has
+  CVE-2026-8763 / CVE-2026-13506). **1.87 breaks v6 encryption** with PGPainless 2.0.4 — `PgpTest` catches it. Upgrade
+  BC together with PGPainless and run the JVM tests.
+
 ## Don't touch / never commit
 
 - `../Signing_Key/` (keystore, passwords, release OpenPGP key).

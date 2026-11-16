@@ -87,10 +87,7 @@ class _FileScreenState extends State<FileScreen> {
 
   Future<void> _encrypt(PickedFile input) async {
     if (!checkRecipients(context, _opts)) return;
-    final out = await SystemBridge.pickCreate(
-      '${input.name}${_armor ? '.asc' : '.pgp'}',
-      mime: 'application/pgp-encrypted',
-    );
+    final out = await SystemBridge.pickCreate('${input.name}${_armor ? '.asc' : '.pgp'}');
     if (out == null || !mounted) return;
     final ok = await busy(context, () async {
       String? password;
@@ -158,7 +155,7 @@ class _FileScreenState extends State<FileScreen> {
   Future<void> _sign(PickedFile input) async {
     final k = _key;
     if (k == null) return showToast(context, context.l10n.needOwnKey, error: true);
-    final out = await SystemBridge.pickCreate('${input.name}.sig', mime: 'application/pgp-signature');
+    final out = await SystemBridge.pickCreate('${input.name}.sig');
     if (out == null || !mounted) return;
     final ok = await busy(context, () async {
       final pass = await keyPassphrase(context, k);

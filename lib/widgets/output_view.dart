@@ -80,8 +80,8 @@ class OutputBox extends StatelessWidget {
 }
 
 /// حفظ نص في ملف يختاره المستخدم.
-Future<void> saveTextFile(BuildContext context, String text, String fileName, {String mime = 'text/plain'}) async {
-  final out = await SystemBridge.pickCreate(fileName, mime: mime);
+Future<void> saveTextFile(BuildContext context, String text, String fileName) async {
+  final out = await SystemBridge.pickCreate(fileName);
   if (out == null || !context.mounted) return;
   await busy(context, () => SystemBridge.writeUri(out.uri, Uint8List.fromList(utf8.encode(text))), done: context.l10n.saved);
 }

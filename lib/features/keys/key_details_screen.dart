@@ -55,7 +55,7 @@ Future<void> sharePublicKey(BuildContext context, KeyInfo k) async {
           title: Text(l.saveFile),
           onTap: () {
             Navigator.pop(ctx);
-            saveTextFile(context, armored, safeFileName(k, '.asc'), mime: 'application/pgp-keys');
+            saveTextFile(context, armored, safeFileName(k, '.asc'));
           },
         ),
         if (armored.length <= 2200)
@@ -165,7 +165,7 @@ class _Details extends StatelessWidget {
       return Core.exportSecret(_profile, k.fp, pw);
     });
     if (armored == null || !context.mounted) return;
-    await saveTextFile(context, armored, safeFileName(k, '_SECRET.asc'), mime: 'application/pgp-keys');
+    await saveTextFile(context, armored, safeFileName(k, '_SECRET.asc'));
   }
 
   Future<void> _revocationCert(BuildContext context) async {
@@ -177,7 +177,7 @@ class _Details extends StatelessWidget {
       return Core.revocationCert(_profile, k.fp, pw);
     });
     if (armored == null || !context.mounted) return;
-    await saveTextFile(context, armored, safeFileName(k, '_REVOCATION.asc'), mime: 'application/pgp-keys');
+    await saveTextFile(context, armored, safeFileName(k, '_REVOCATION.asc'));
   }
 
   Future<void> _revoke(BuildContext context) async {

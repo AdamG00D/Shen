@@ -47,15 +47,22 @@ class SystemBridge {
   /// النوافذ دي بتخلي التطبيق يروح في الخلفية — القفل التلقائي يستنى لحد ما ترجع.
   static Future<T> _outside<T>(Future<T> Function() f) => Session.instance.outside(f);
 
-  static Future<PickedFile?> pickOpen() => _outside(() async => PickedFile.fromMap(await _channel.invokeMethod('pickOpen')));
+  static Future<PickedFile?> pickOpen() =>
+      _outside(() async => PickedFile.fromMap(await _channel.invokeMethod('pickOpen')));
 
-  static Future<PickedFile?> pickCreate(String name, {String mime = 'application/octet-stream'}) =>
-      _outside(() async => PickedFile.fromMap(await _channel.invokeMethod('pickCreate', {'name': name, 'mime': mime})));
+  /// نافذة "حفظ باسم". النوع دايماً octet-stream: لو قلنا application/pgp-keys مثلاً أندرويد بيزوّد امتداد
+  /// من عنده (`key.asc` ← `key.asc.key`).
+  static Future<PickedFile?> pickCreate(String name) => _outside(
+    () async => PickedFile.fromMap(
+      await _channel.invokeMethod('pickCreate', {'name': name, 'mime': 'application/octet-stream'}),
+    ),
+  );
 
   static Future<Uint8List?> readUri(String uri, {int max = 8 * 1024 * 1024}) =>
       _channel.invokeMethod<Uint8List>('readUri', {'uri': uri, 'max': max});
 
-  static Future<void> writeUri(String uri, Uint8List data) => _channel.invokeMethod('writeUri', {'uri': uri, 'data': data});
+  static Future<void> writeUri(String uri, Uint8List data) =>
+      _channel.invokeMethod('writeUri', {'uri': uri, 'data': data});
 
   static Future<void> shareText(String text, String title) =>
       _outside(() async => _channel.invokeMethod('shareText', {'text': text, 'title': title}));

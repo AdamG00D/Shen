@@ -96,7 +96,7 @@ dependencies {
     // ⚠️ متطلعش لـ 1.87 قبل تحديث PGPainless: مفاتيح v6 بتبطل تشفّر (PgpTest.generatesUsableKeysOfEveryKind بيمسكها).
     implementation("org.bouncycastle:bcprov-jdk18on:1.85")
     implementation("org.bouncycastle:bcpg-jdk18on:1.85")
-    implementation("org.bouncycastle:bcutil-jdk18on:1.85")
+    implementation("org.bouncycastle:bcutil-jdk18on:1.87")
     // البصمة مربوطة بمفتاح الـ Keystore (CryptoObject)
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("androidx.fragment:fragment-ktx:1.8.9")

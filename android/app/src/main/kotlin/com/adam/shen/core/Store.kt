@@ -57,15 +57,22 @@ class ContactEntry(
     }
 }
 
-class ProfileData(val keys: MutableList<KeyEntry> = mutableListOf(), val contacts: MutableList<ContactEntry> = mutableListOf()) {
+class ProfileData(
+    val keys: MutableList<KeyEntry> = mutableListOf(),
+    val contacts: MutableList<ContactEntry> = mutableListOf(),
+    /** المفتاح اللي بنوقّع بيه ونشفّر لنفسنا بيه افتراضياً. */
+    var defaultKey: String? = null,
+) {
     fun toJson(): JSONObject = JSONObject()
         .put("keys", JSONArray(keys.map { it.toJson() }))
         .put("contacts", JSONArray(contacts.map { it.toJson() }))
+        .put("default", defaultKey ?: JSONObject.NULL)
 
     companion object {
         fun fromJson(o: JSONObject) = ProfileData(
             o.optJSONArray("keys").objects().map(KeyEntry::fromJson).toMutableList(),
             o.optJSONArray("contacts").objects().map(ContactEntry::fromJson).toMutableList(),
+            if (o.isNull("default")) null else o.optString("default").ifEmpty { null },
         )
     }
 }

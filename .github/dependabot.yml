@@ -10,6 +10,12 @@ updates:
     schedule:
       interval: monthly
     open-pull-requests-limit: 5
+    ignore:
+      # 1.87 breaks v6 encryption with PGPainless 2.0.4 (PgpTest catches it) — upgrade together with PGPainless.
+      - dependency-name: org.bouncycastle:*
+        versions: [">= 1.86"]
+      # The Android Gradle Plugin version follows the Flutter template; bump it together with Flutter.
+      - dependency-name: com.android.application
   - package-ecosystem: github-actions
     directory: /
     schedule:

@@ -75,7 +75,14 @@ android {
 
     testOptions {
         unitTests.isReturnDefaultValues = true
-        unitTests.all { it.maxHeapSize = "2g" }
+        unitTests.all {
+            it.maxHeapSize = "2g"
+            // في الـ CI: رسالة الفشل كاملة (فيها stderr بتاع gpg في تيستات التوافق)
+            it.testLogging {
+                events("failed")
+                exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+            }
+        }
     }
 }
 

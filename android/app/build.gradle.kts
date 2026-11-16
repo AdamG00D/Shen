@@ -105,5 +105,5 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     // org.json جوه أندرويد بس — للتيستات على الـ JVM
-    testImplementation("org.json:json:20250517")
+    testImplementation("org.json:json:20260814")
 }

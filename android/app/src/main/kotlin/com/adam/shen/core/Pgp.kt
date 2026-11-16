@@ -148,8 +148,16 @@ class Pgp {
         if (algo != KeyAlgo.V6) b.withPreferences(V4_SUITE)
         b.addUserId(userId)
         b.setExpirationDate(expires)
-        if (!passphrase.isNullOrEmpty()) b.setPassphrase(Passphrase.fromPassword(passphrase))
-        return b.build()
+        // v6: الحماية بـ AEAD من الـ builder (gpg مبيدعمش v6 أصلاً)
+        if (algo == KeyAlgo.V6 && !passphrase.isNullOrEmpty()) b.setPassphrase(Passphrase.fromPassword(passphrase))
+        val key = b.build()
+        if (passphrase.isNullOrEmpty() || algo == KeyAlgo.V6) return key
+        // كلمة السر بتتحط بعد الإنشاء مش جوه الـ builder: الـ builder بيستخدم نفس الـ salt (يعني نفس المفتاح المشتق)
+        // لكل المفاتيح الفرعية، والمحرر بيدّي كل مفتاح فرعي salt لوحده.
+        return api.modify(key).changePassphraseFromOldPassphrase(Passphrase.emptyPassphrase())
+            .withSecureDefaultSettings()
+            .toNewPassphrase(Passphrase.fromPassword(passphrase))
+            .done()
     }
 
     /** شهادة إلغاء جاهزة (armored): لو المفتاح اتسرق أو ضاع، بتنشرها فالناس تعرف إنه ملغي. */
@@ -372,6 +380,12 @@ class Pgp {
             api.processMessage().onInputStream(input).withOptions(opts)
         } catch (e: MissingDecryptionMethodException) {
             throw CoreError(if (password.isNullOrEmpty()) Err.NO_KEY else Err.WRONG_PASSWORD)
+        } catch (e: CoreError) {
+            throw e
+        } catch (e: Exception) {
+            // بكلمة سر غلط مفتاح الجلسة بيطلع عشوائي، والمكتبة بترمي أخطاء مختلفة حسب البيانات العشوائية دي
+            if (!password.isNullOrEmpty() && keys.isEmpty()) throw CoreError(Err.WRONG_PASSWORD)
+            throw e
         }
         stream.copyTo(output, BUFFER)
         stream.close()

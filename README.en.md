@@ -78,6 +78,15 @@ gpg --verify SHA256SUMS.txt.asc SHA256SUMS.txt
 sha256sum -c SHA256SUMS.txt --ignore-missing
 ```
 
+## Using your key in Kleopatra / GnuPG
+
+Export the secret key from the key's page (**Export secret key**) and import the `.asc` file in Kleopatra or with
+`gpg --import`. It keeps its passphrase.
+
+> **Ubuntu 26.04 only:** its libgcrypt 1.12.0 can't use passphrase-protected secret keys imported from other
+> programs ("Bad passphrase"). Run `gpg --passwd <your email>` once after importing (you can keep the same passphrase).
+> Debian, Fedora, Arch and Ubuntu 24.04 are not affected (tested).
+
 ## Building
 
 ```bash

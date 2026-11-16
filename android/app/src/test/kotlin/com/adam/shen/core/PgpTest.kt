@@ -48,6 +48,16 @@ class PgpTest {
     }
 
     @Test
+    fun everySubkeyHasItsOwnSalt() {
+        // كل مفتاح فرعي محمي بـ salt لوحده (شوف Pgp.generate)
+        for (algo in KeyAlgo.values()) {
+            if (algo != KeyAlgo.CV25519) continue // RSA بطيء في التيست، وv6 بيستخدم AEAD
+            val salts = key(algo).pgpSecretKeyRing.secretKeys.asSequence().map { Bytes.hex(it.s2K.iv) }.toList()
+            assertEquals("$algo", salts.size, salts.toSet().size)
+        }
+    }
+
+    @Test
     fun armorRoundTripAndPublicPart() {
         val k = key()
         val parsed = pgp.parseKey(pgp.armor(k).toByteArray())
@@ -156,8 +166,11 @@ class PgpTest {
             val plain = ByteArrayOutputStream()
             pgp.decrypt(ByteArrayInputStream(out.toByteArray()), plain, emptyList(), "pässwörd 123", emptyList())
             assertEquals("backup", String(plain.toByteArray()))
-            expectErr(Err.WRONG_PASSWORD) {
-                pgp.decrypt(ByteArrayInputStream(out.toByteArray()), ByteArrayOutputStream(), emptyList(), "wrong", emptyList())
+            // كلمة السر الغلط بتطلّع مفتاح عشوائي — نجرّب كتير عشان الحالات النادرة تظهر
+            repeat(40) { i ->
+                expectErr(Err.WRONG_PASSWORD) {
+                    pgp.decrypt(ByteArrayInputStream(out.toByteArray()), ByteArrayOutputStream(), emptyList(), "wrong $i", emptyList())
+                }
             }
         }
     }

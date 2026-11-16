@@ -10,7 +10,9 @@ permissions:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    # 24.04: gpg 2.4.4 للتوافق. Ubuntu 26.04 فيه libgcrypt 1.12.0 اللي مبتعرفش تستخدم مفاتيح OpenPGP
+    # المحمية بكلمة سر من برامج تانية من غير `gpg --passwd` (اتصلحت في 1.12.2+) — شوف README
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

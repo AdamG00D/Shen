@@ -873,7 +873,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get markedVerified => 'Marked as verified';
 
   @override
-  String get needOwnKey => 'You need one of your own (unexpired) keys first.';
+  String get needOwnKey => 'You need a key of your own first (in My keys)';
 
   @override
   String get certifyTitle => 'Certify this key';
@@ -1003,6 +1003,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get signMessageHelp =>
       'The recipient can check that it\'s from you and unchanged';
+
+  @override
+  String get needSigningKey =>
+      'You need a key of your own that can sign (in My keys)';
 
   @override
   String signingAs(String name) {

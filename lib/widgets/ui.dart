@@ -128,7 +128,16 @@ class PrimaryButton extends StatelessWidget {
 
 /// زرار ثانوي: إطار رفيع من غير خلفية.
 class SecondaryButton extends StatelessWidget {
-  const SecondaryButton({super.key, required this.label, required this.onPressed, this.icon, this.color, this.height = 48});
+  const SecondaryButton({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    this.icon,
+    this.color,
+    this.height = 48,
+    this.stacked = false,
+    this.padding,
+  });
 
   final String label;
   final VoidCallback? onPressed;
@@ -136,12 +145,20 @@ class SecondaryButton extends StatelessWidget {
   final Color? color;
   final double height;
 
+  /// الأيقونة فوق الكلمة (لما الزرار ضيق) — والكلمة تنزل سطرين بدل ما تتقص.
+  final bool stacked;
+
+  /// الهامش الأفقي جوه الزرار (null = بتاع الثيم).
+  final double? padding;
+
+  static const textStyle = TextStyle(fontFamily: AppTheme.fontFamily, fontWeight: FontWeight.w600, fontSize: 14.5);
+
   @override
   Widget build(BuildContext context) {
     final p = context.palette;
     final fg = color ?? p.text;
     return SizedBox(
-      height: height,
+      height: stacked ? null : height,
       width: double.infinity,
       child: OutlinedButton(
         onPressed: onPressed,
@@ -149,16 +166,100 @@ class SecondaryButton extends StatelessWidget {
           foregroundColor: fg,
           side: BorderSide(color: color == null ? p.border : fg.withValues(alpha: 0.5)),
           minimumSize: Size(64, height),
+          padding: padding == null
+              ? null
+              : EdgeInsets.symmetric(horizontal: padding!, vertical: stacked ? 10 : 0),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radius)),
-          textStyle: const TextStyle(fontFamily: AppTheme.fontFamily, fontWeight: FontWeight.w600, fontSize: 14.5),
+          textStyle: textStyle,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon != null) ...[Icon(icon, size: 18), const SizedBox(width: 8)],
-            Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)),
+        child: stacked
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (icon != null) ...[Icon(icon, size: 20), const SizedBox(height: 4)],
+                  Text(label, maxLines: 2, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis),
+                ],
+              )
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (icon != null) ...[Icon(icon, size: 18), const SizedBox(width: 8)],
+                  Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                ],
+              ),
+      ),
+    );
+  }
+}
+
+/// أزرار النتيجة (نسخ / مشاركة / حفظ...) بشكل SecondaryButton العادي — الأيقونة جنب الكلمة.
+/// لو مفيش مكان للكل في سطر واحد: الأول لوحده بعرض الشاشة والباقي تحته جنب بعض.
+/// ولو الخط كبير جداً ولسه مش مكفي: الأيقونة فوق الكلمة. في كل الحالات مفيش كلمة بتتقص.
+class ButtonRow extends StatelessWidget {
+  const ButtonRow({super.key, required this.items});
+
+  final List<({IconData icon, String label, VoidCallback onPressed})> items;
+
+  static const _gap = 8.0;
+  static const _pad = 12.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, c) {
+        final dir = Directionality.of(context);
+        final scaler = MediaQuery.textScalerOf(context);
+        double widest = 0;
+        for (final i in items) {
+          final tp = TextPainter(
+            text: TextSpan(text: i.label, style: SecondaryButton.textStyle),
+            textDirection: dir,
+            textScaler: scaler,
+            maxLines: 1,
+          )..layout();
+          if (tp.width > widest) widest = tp.width;
+          tp.dispose();
+        }
+        // الكلمة + الأيقونة + المسافة + الهامش + الإطار
+        final need = widest + 18 + 8 + _pad * 2 + 4;
+        double each(int n) => (c.maxWidth - _gap * (n - 1)) / n;
+
+        if (need <= each(items.length)) return _row(items, stacked: false);
+        final rest = items.length > 2 ? items.sublist(1) : items;
+        if (need <= each(rest.length)) {
+          if (rest.length == items.length) return _row(items, stacked: false);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _row(items.sublist(0, 1), stacked: false),
+              const SizedBox(height: _gap),
+              _row(rest, stacked: false),
+            ],
+          );
+        }
+        return _row(items, stacked: true);
+      },
+    );
+  }
+
+  Widget _row(List<({IconData icon, String label, VoidCallback onPressed})> list, {required bool stacked}) {
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < list.length; i++) ...[
+            if (i > 0) const SizedBox(width: _gap),
+            Expanded(
+              child: SecondaryButton(
+                label: list[i].label,
+                icon: list[i].icon,
+                onPressed: list[i].onPressed,
+                stacked: stacked,
+                padding: _pad,
+              ),
+            ),
           ],
-        ),
+        ],
       ),
     );
   }

@@ -23,6 +23,9 @@ class Session extends ChangeNotifier with WidgetsBindingObserver {
   /// بيتنده لما الخزنة تتقفل (عشان الشاشات المفتوحة تتقفل).
   VoidCallback? onLocked;
 
+  /// آخر تبويب كان مفتوح — بيرجع عليه بعد فتح القفل. رقم بس، من غير أي محتوى.
+  int lastTab = 0;
+
   DateTime? _pausedAt;
   int _outside = 0;
   Timer? _lockTimer;
@@ -64,11 +67,14 @@ class Session extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   Future<void> unlockWithBio(String title, String subtitle, String cancel) async {
-    await Core.bioUnlock(title, subtitle, cancel);
+    // نافذة البصمة بتعدّي التطبيق على "رجع للواجهة" — متتحسبش خروج
+    await outside(() => Core.bioUnlock(title, subtitle, cancel));
     await _afterUnlock();
   }
 
   Future<void> _afterUnlock() async {
+    _pausedAt = null;
+    _lockTimer?.cancel();
     await Core.setPassCache(AppSettings.instance.passCacheMinutes);
     final s = await Core.status();
     bioEnabled = s.bio;
@@ -79,6 +85,8 @@ class Session extends ChangeNotifier with WidgetsBindingObserver {
   Future<void> lock() async {
     if (phase != Phase.unlocked) return;
     _lockTimer?.cancel();
+    // لو فضل متسجّل، أول "رجوع للواجهة" بعد الفتح (زي قفلة نافذة البصمة) هيقفل تاني
+    _pausedAt = null;
     try {
       await Core.lock();
     } catch (_) {}
@@ -93,6 +101,7 @@ class Session extends ChangeNotifier with WidgetsBindingObserver {
   /// بعد ما كل حاجة اتمسحت.
   void wiped() {
     phase = Phase.setup;
+    lastTab = 0;
     bioEnabled = false;
     profiles = const [];
     keys = const [];

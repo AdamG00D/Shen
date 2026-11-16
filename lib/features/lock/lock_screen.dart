@@ -21,16 +21,28 @@ class _LockScreenState extends State<LockScreen> {
   final _pw = TextEditingController();
   String? _error;
   bool _busy = false;
+  bool _bioShowing = false;
+  AppLifecycleListener? _resume;
 
   @override
   void initState() {
     super.initState();
-    // البصمة تطلع لوحدها أول ما الشاشة تفتح
-    if (Session.instance.bioEnabled) WidgetsBinding.instance.addPostFrameCallback((_) => _bio());
+    // البصمة تطلع لوحدها مرة واحدة بس — ولو اتقفل والتطبيق في الخلفية، تستنى لما يرجع للواجهة
+    if (!Session.instance.bioEnabled) return;
+    if (WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _bio());
+    } else {
+      _resume = AppLifecycleListener(onResume: () {
+        _resume?.dispose();
+        _resume = null;
+        if (mounted) _bio();
+      });
+    }
   }
 
   @override
   void dispose() {
+    _resume?.dispose();
     _pw.clear();
     _pw.dispose();
     super.dispose();
@@ -51,6 +63,8 @@ class _LockScreenState extends State<LockScreen> {
   }
 
   Future<void> _bio() async {
+    if (_bioShowing) return;
+    _bioShowing = true;
     final l = context.l10n;
     try {
       await Session.instance.unlockWithBio(l.bioTitle, l.bioSubtitle, l.usePassword);
@@ -60,6 +74,8 @@ class _LockScreenState extends State<LockScreen> {
       if (mounted) setState(() => _error = errorText(l, e));
     } catch (e) {
       if (mounted) setState(() => _error = errorText(l, e));
+    } finally {
+      _bioShowing = false;
     }
   }
 

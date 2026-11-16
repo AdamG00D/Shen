@@ -2,7 +2,7 @@ name: shen
 description: "Shen — شِن: إدارة مفاتيح PGP على أندرويد (تشفير، توقيع، بروفايلات) من غير إنترنت."
 publish_to: 'none'
 
-version: 1.1.0+2
+version: 1.2.0+3
 
 environment:
   sdk: ">=3.9.0 <4.0.0"

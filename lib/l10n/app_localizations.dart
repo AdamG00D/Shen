@@ -1541,7 +1541,7 @@ abstract class AppLocalizations {
   /// No description provided for @needOwnKey.
   ///
   /// In ar, this message translates to:
-  /// **'محتاج مفتاح من مفاتيحك (مش منتهي) الأول.'**
+  /// **'محتاج مفتاح خاص بيك الأول (من «مفاتيحي»)'**
   String get needOwnKey;
 
   /// No description provided for @certifyTitle.
@@ -1771,6 +1771,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المستلم يتأكد إنها منك ومتغيّرتش'**
   String get signMessageHelp;
+
+  /// No description provided for @needSigningKey.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتاج مفتاح خاص بيك يقدر يوقّع (من «مفاتيحي»)'**
+  String get needSigningKey;
 
   /// No description provided for @signingAs.
   ///

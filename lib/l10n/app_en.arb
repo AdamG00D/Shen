@@ -279,6 +279,8 @@
   "encryptToSelfHelp": "So you can read what you sent later",
   "signMessage": "Sign",
   "signMessageHelp": "The recipient can check that it's from you and unchanged",
+  "needOwnKey": "You need a key of your own first (in My keys)",
+  "needSigningKey": "You need a key of your own that can sign (in My keys)",
   "signingAs": "Signing as {name}",
   "changeSigningKey": "Change signing key",
   "newMessagePasswordBody": "Choose a strong password and give it to the recipient some other way.",

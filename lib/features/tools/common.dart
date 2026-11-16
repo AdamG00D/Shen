@@ -64,10 +64,11 @@ class SignaturesView extends StatelessWidget {
 }
 
 /// المستلمين + التوقيع + التشفير لنفسي — نفس الإعدادات في النص والملفات.
+/// التوقيع والتشفير لنفسي بيبدأوا مقفولين — المستخدم يفعّلهم بنفسه.
 class EncryptOptions {
   Set<String> recipients = {};
-  String? signWith = Session.instance.signingKeys.isEmpty ? null : Session.instance.defaultKey?.fp;
-  bool self = true;
+  String? signWith;
+  bool self = false;
   bool usePassword = false;
 }
 
@@ -156,7 +157,7 @@ class _EncryptOptionsViewState extends State<EncryptOptionsView> {
             contentPadding: EdgeInsets.zero,
             value: o.self,
             title: Text(l.encryptToSelf),
-            subtitle: Text(l.encryptToSelfHelp),
+            subtitle: Text(s.keys.isEmpty ? l.needOwnKey : l.encryptToSelfHelp),
             onChanged: s.keys.isEmpty
                 ? null
                 : (v) {
@@ -168,11 +169,18 @@ class _EncryptOptionsViewState extends State<EncryptOptionsView> {
             contentPadding: EdgeInsets.zero,
             value: o.signWith != null,
             title: Text(l.signMessage),
-            subtitle: Text(signer == null ? l.signMessageHelp : l.signingAs(signer.primaryUid ?? signer.keyId)),
+            subtitle: Text(
+              s.signingKeys.isEmpty
+                  ? (s.keys.isEmpty ? l.needOwnKey : l.needSigningKey)
+                  : signer == null
+                      ? l.signMessageHelp
+                      : l.signingAs(signer.primaryUid ?? signer.keyId),
+            ),
             onChanged: s.signingKeys.isEmpty
                 ? null
                 : (v) {
-                    o.signWith = v ? (s.defaultKey?.fp ?? s.signingKeys.first.fp) : null;
+                    final def = s.signingKeys.where((k) => k.fp == s.defaultKey?.fp).firstOrNull;
+                    o.signWith = v ? (def ?? s.signingKeys.first).fp : null;
                     _changed();
                   },
           ),

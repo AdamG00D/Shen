@@ -474,6 +474,8 @@
   "encryptToSelfHelp": "عشان تقدر تقرا اللي بعته بعدين",
   "signMessage": "وقّع",
   "signMessageHelp": "المستلم يتأكد إنها منك ومتغيّرتش",
+  "needOwnKey": "محتاج مفتاح خاص بيك الأول (من «مفاتيحي»)",
+  "needSigningKey": "محتاج مفتاح خاص بيك يقدر يوقّع (من «مفاتيحي»)",
   "signingAs": "بتوقّع كـ {name}",
   "@signingAs": {
     "placeholders": {

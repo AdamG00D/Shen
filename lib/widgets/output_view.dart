@@ -45,33 +45,12 @@ class OutputBox extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        Row(
-          children: [
-            Expanded(
-              child: SecondaryButton(
-                label: l.copy,
-                icon: Icons.copy_rounded,
-                onPressed: () => copySecure(context, text, sensitive: sensitive),
-              ),
-            ),
-            if (!sensitive) ...[
-              const SizedBox(width: 8),
-              Expanded(
-                child: SecondaryButton(
-                  label: l.share,
-                  icon: Icons.share_rounded,
-                  onPressed: () => SystemBridge.shareText(text, l.share),
-                ),
-              ),
-            ],
-            const SizedBox(width: 8),
-            Expanded(
-              child: SecondaryButton(
-                label: l.saveFile,
-                icon: Icons.save_alt_rounded,
-                onPressed: () => saveTextFile(context, text, fileName),
-              ),
-            ),
+        ButtonRow(
+          items: [
+            (icon: Icons.copy_rounded, label: l.copy, onPressed: () => copySecure(context, text, sensitive: sensitive)),
+            if (!sensitive)
+              (icon: Icons.share_rounded, label: l.share, onPressed: () => SystemBridge.shareText(text, l.share)),
+            (icon: Icons.save_alt_rounded, label: l.saveFile, onPressed: () => saveTextFile(context, text, fileName)),
           ],
         ),
       ],

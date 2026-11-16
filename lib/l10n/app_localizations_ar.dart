@@ -816,7 +816,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get markedVerified => 'اتعلّم إنه متأكد منه';
 
   @override
-  String get needOwnKey => 'محتاج مفتاح من مفاتيحك (مش منتهي) الأول.';
+  String get needOwnKey => 'محتاج مفتاح خاص بيك الأول (من «مفاتيحي»)';
 
   @override
   String get certifyTitle => 'التوقيع على المفتاح';
@@ -942,6 +942,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get signMessageHelp => 'المستلم يتأكد إنها منك ومتغيّرتش';
+
+  @override
+  String get needSigningKey => 'محتاج مفتاح خاص بيك يقدر يوقّع (من «مفاتيحي»)';
 
   @override
   String signingAs(String name) {

@@ -27,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _tab = 0;
+  int _tab = Session.instance.lastTab;
   StreamSubscription<void>? _sub;
 
   @override
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
           bottomNavigationBar: _ShenNavBar(
             selected: _tab,
-            onSelect: (i) => setState(() => _tab = i),
+            onSelect: (i) => setState(() => _tab = Session.instance.lastTab = i),
             items: [
               (Icons.vpn_key_outlined, l.myKeys),
               (Icons.people_outline_rounded, l.contacts),

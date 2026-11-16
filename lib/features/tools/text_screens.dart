@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../core/core_api.dart';
 import '../../core/models.dart';
 import '../../core/session.dart';
+import '../../core/system.dart';
 import '../../core/theme/app_theme.dart';
 import '../../l10n/l10n.dart';
 import '../../widgets/feedback.dart';
@@ -51,8 +52,8 @@ class _TextArea extends StatelessWidget {
               icon: const Icon(Icons.content_paste_rounded, size: 18),
               label: Text(l.paste),
               onPressed: () async {
-                final d = await Clipboard.getData(Clipboard.kTextPlain);
-                if (d?.text != null) controller.text = d!.text!;
+                final t = await SystemBridge.paste();
+                if (t != null) controller.text = t;
               },
             ),
             TextButton.icon(

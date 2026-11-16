@@ -51,7 +51,8 @@ def make(lang: str) -> None:
 
     f = font("SemiBold", 30)
     x = tx
-    y = 385
+    oy = (H - 560) // 2  # النص في النص لو البانر أطول
+    y = 385 + oy
     boxes = []
     for c in chips:
         w = ld.textlength(c, font=f, direction=direction) + 48
@@ -63,8 +64,8 @@ def make(lang: str) -> None:
     d = ImageDraw.Draw(img)
     for c, cx in boxes:
         d.text((cx, y + 29), c, font=f, fill="white", anchor="mm", direction=direction)
-    d.text((tx, 120), title, font=font("Bold", 120), fill="white", anchor=anchor, direction=direction)
-    d.text((tx, 285), tagline, font=font("Medium", 46), fill=(226, 232, 240), anchor=anchor, direction=direction)
+    d.text((tx, 120 + oy), title, font=font("Bold", 120), fill="white", anchor=anchor, direction=direction)
+    d.text((tx, 285 + oy), tagline, font=font("Medium", 46), fill=(226, 232, 240), anchor=anchor, direction=direction)
     out = ROOT / f"docs/images/banner.{lang}.png"
     img.convert("RGB").save(out, optimize=True)
     print("✅", out.relative_to(ROOT))

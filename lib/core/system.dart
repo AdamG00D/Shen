@@ -64,6 +64,9 @@ class SystemBridge {
   static Future<void> copy(String text, {bool sensitive = true, int clearAfter = 45}) =>
       _channel.invokeMethod('copy', {'text': text, 'sensitive': sensitive, 'clearAfter': clearAfter});
 
+  /// النص اللي في الحافظة (null لو فاضية).
+  static Future<String?> paste() => _channel.invokeMethod<String>('paste');
+
   static Future<Incoming?> takeIncoming() async {
     final m = await _channel.invokeMethod<Map>('takeIncoming');
     if (m == null) return null;

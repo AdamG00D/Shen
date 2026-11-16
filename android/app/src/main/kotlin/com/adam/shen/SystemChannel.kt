@@ -73,6 +73,13 @@ class SystemChannel(private val activity: FragmentActivity, messenger: BinaryMes
                 copy(call.argument<String>("text") ?: "", call.argument<Boolean>("sensitive") ?: true, call.argument<Int>("clearAfter") ?: 45)
                 result.success(true)
             }
+            // لصق من Kotlin: Clipboard.getData بتاع Flutter بيرجع فاضي على أندرويد 16 في بعض الأجهزة
+            "paste" -> {
+                val cm = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val text = runCatching { cm.primaryClip?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.coerceToText(activity)?.toString() }
+                    .getOrNull()
+                result.success(text?.take(10 * 1024 * 1024))
+            }
             "takeIncoming" -> {
                 result.success(incoming)
                 incoming = null

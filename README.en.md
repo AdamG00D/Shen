@@ -92,8 +92,8 @@ Needs Flutter (stable), JDK 17+ and the Android SDK. Official releases are built
 ## Contributing
 
 Welcome! Read [CONTRIBUTING.md](CONTRIBUTING.md). Security issues **don't go in public issues** — see
-[SECURITY.md](SECURITY.md). What's next is in [ROADMAP.md](ROADMAP.md): an OpenPGP provider for email apps, YubiKey
-support and optional online key lookup.
+[SECURITY.md](SECURITY.md). What's next is in [ROADMAP.md](ROADMAP.md): an OpenPGP provider for email apps and YubiKey
+support.
 
 ## License
 

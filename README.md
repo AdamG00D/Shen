@@ -90,7 +90,7 @@ flutter build apk --release                          # من غير مفتاح ا
 
 أهلاً بيك! اقرا [CONTRIBUTING.ar.md](CONTRIBUTING.ar.md). الثغرات الأمنية **متتكتبش في issue** — شوف
 [SECURITY.ar.md](SECURITY.ar.md). وخطة اللي جاي في [ROADMAP.md](ROADMAP.md): مزوّد OpenPGP لتطبيقات الإيميل،
-ومفاتيح YubiKey، والبحث عن المفاتيح أونلاين (اختياري).
+ومفاتيح YubiKey.
 
 ## الرخصة
 

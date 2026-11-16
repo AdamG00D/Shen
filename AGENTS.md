@@ -5,8 +5,8 @@ People keep their keys in **profiles** (personal, work...), each with its own ke
 password; contacts' public keys live in one profile by default and can be shown in all of them. It encrypts, decrypts,
 signs and verifies text and files, verifies contacts by QR or by comparing fingerprints, certifies keys and makes
 encrypted backups. Package `com.adam.shen`. Open source, **GPL-3.0-or-later** (`LICENSE`). The app has **no INTERNET
-permission** — never add network code, analytics or SDKs that need it (online key lookup is a post-1.0 decision, see
-`ROADMAP.md`).
+permission** — never add network code, analytics or SDKs that need it (online key lookup was decided against, see
+`ROADMAP.md`). Android only — no desktop builds.
 
 Human-facing docs come in English + Arabic pairs, keep both in sync: `README.md` is **Arabic** (the main one) with
 `README.en.md`; `CONTRIBUTING`, `SECURITY` (threat model + known limits) and `CODE_OF_CONDUCT` are English `X.md` with

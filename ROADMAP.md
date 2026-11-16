@@ -13,10 +13,12 @@ encryption / decryption / signing / verification, encrypted backups, Arabic + En
 1. **OpenPGP provider for email apps** — let K-9 / Thunderbird for Android and FairEmail use Shen's keys (the role
    OpenKeychain plays today).
 2. **Hardware keys** — YubiKey and other OpenPGP smart cards over NFC (and USB): the secret key never leaves the card.
-3. **Online key lookup and refresh** — find keys by email (WKD, keys.openpgp.org) and fetch updates (new expiry,
-   revocations). Off by default. Still to decide: an opt-in feature in the same app, or a separate "online" build so
-   the default build keeps having no INTERNET permission at all.
-4. *Maybe:* a Linux desktop build (on hold — desktop users already have Kleopatra).
+
+## Not planned
+
+- **Online key lookup** (WKD, keyservers): Shen stays fully offline, with no INTERNET permission. Keys are exchanged
+  as files, text or QR codes.
+- **Desktop builds**: Shen is Android only — on the desktop there is Kleopatra.
 
 Ideas and votes are welcome in the issues.
 
@@ -37,9 +39,11 @@ Ideas and votes are welcome in the issues.
 1. **مزوّد OpenPGP لتطبيقات الإيميل** — K-9 / Thunderbird for Android وFairEmail يستخدموا مفاتيح شِن (زي
    OpenKeychain).
 2. **المفاتيح الهاردوير** — YubiKey وكروت OpenPGP بالـ NFC (والـ USB): المفتاح السري مبيطلعش من الكارت أبداً.
-3. **البحث عن المفاتيح وتحديثها أونلاين** — تدوّر على مفتاح بالإيميل (WKD وkeys.openpgp.org) وتجيب التحديثات
-   (صلاحية جديدة، إلغاء). مقفول افتراضياً. لسه هنقرر: اختيار جوه نفس التطبيق، ولا نسخة "أونلاين" منفصلة عشان
-   النسخة العادية تفضل من غير صلاحية إنترنت خالص.
-4. *يمكن:* نسخة لينكس ديسكتوب (متأجلة — مستخدمين الكمبيوتر عندهم كيلوباترا أصلاً).
+
+## مش في الخطة
+
+- **البحث عن المفاتيح أونلاين** (WKD والسيرفرات): شِن هيفضل من غير إنترنت خالص ومن غير صلاحية INTERNET. المفاتيح
+  بتتبادل كملفات أو نص أو QR.
+- **نسخ للكمبيوتر**: شِن لأندرويد بس — على الكمبيوتر فيه كيلوباترا.
 
 </div>

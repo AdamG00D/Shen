@@ -1,7 +1,7 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../core/core_api.dart';
 import '../../core/errors.dart';
@@ -41,8 +41,7 @@ Future<void> showImportSources(BuildContext context) async {
   if (src == null || !context.mounted) return;
   switch (src) {
     case 'clip':
-      final d = await Clipboard.getData(Clipboard.kTextPlain);
-      final t = d?.text ?? '';
+      final t = await SystemBridge.paste() ?? '';
       if (!context.mounted) return;
       if (t.trim().isEmpty) return showToast(context, l.clipboardEmpty, error: true);
       await openImport(context, Uint8List.fromList(utf8.encode(t)));

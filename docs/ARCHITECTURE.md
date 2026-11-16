@@ -59,7 +59,7 @@ enters its password, and is dropped again with "lock profile" or when the vault 
 
 ## OpenPGP
 
-PGPainless 2.0.x on Bouncy Castle 1.85 (pinned above PGPainless's 1.84 for CVE-2026-8763 / CVE-2026-13506; 1.87 breaks v6 encryption with PGPainless 2.0.4), with PGPainless's default policy (rejects SHA-1 signatures, weak algorithms,
+PGPainless 2.0.x on Bouncy Castle 1.85 (bcprov 1.85.2; pinned above PGPainless's 1.84 for CVE-2026-8763 / CVE-2026-13506; 1.87 breaks v6 encryption with PGPainless 2.0.4), with PGPainless's default policy (rejects SHA-1 signatures, weak algorithms,
 unauthenticated encryption).
 
 | Thing | Choice |

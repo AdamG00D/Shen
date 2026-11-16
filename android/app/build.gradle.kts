@@ -101,7 +101,7 @@ dependencies {
     implementation("org.pgpainless:pgpainless-core:2.0.4")
     // Bouncy Castle أحدث من اللي PGPainless 2.0.4 بيطلبه (1.84): 1.85 فيها إصلاح CVE-2026-8763 وCVE-2026-13506.
     // ⚠️ متطلعش لـ 1.87 قبل تحديث PGPainless: مفاتيح v6 بتبطل تشفّر (PgpTest.generatesUsableKeysOfEveryKind بيمسكها).
-    implementation("org.bouncycastle:bcprov-jdk18on:1.85")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.85.2")
     implementation("org.bouncycastle:bcpg-jdk18on:1.85")
     implementation("org.bouncycastle:bcutil-jdk18on:1.85")
     // البصمة مربوطة بمفتاح الـ Keystore (CryptoObject)

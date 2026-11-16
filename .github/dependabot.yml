@@ -14,8 +14,10 @@ updates:
       # 1.87 breaks v6 encryption with PGPainless 2.0.4 (PgpTest catches it) — upgrade together with PGPainless.
       - dependency-name: org.bouncycastle:*
         versions: [">= 1.86"]
-      # The Android Gradle Plugin version follows the Flutter template; bump it together with Flutter.
+      # The Android Gradle Plugin, Kotlin plugin and Gradle wrapper follow the Flutter template; bump them with Flutter.
       - dependency-name: com.android.application
+      - dependency-name: org.jetbrains.kotlin.android
+      - dependency-name: gradle-wrapper
   - package-ecosystem: github-actions
     directory: /
     schedule:

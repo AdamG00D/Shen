@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security issue / ثغرة أمان
+    url: https://github.com/AdamG00D/Shen/security/advisories/new
+    about: Report it privately, not in a public issue / بلّغ عنها في السر، مش في issue عام

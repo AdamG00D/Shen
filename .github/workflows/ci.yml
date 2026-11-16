@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          # نفس نسخة Flutter اللي الإصدارات بتتبني بيها
+          flutter-version: 3.47.2
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      # بيتبني بمفتاح debug (مفتاح التوقيع مش في المستودع) — وبيجهّز gradlew للتيستات اللي بعده
+      - run: flutter build apk --debug
+      - name: Crypto core tests (JVM, incl. GnuPG interop)
+        run: |
+          gpg --version | head -1
+          cd android && ./gradlew :app:testDebugUnitTest --console=plain
+      - name: No INTERNET permission in the release manifest
+        run: |
+          flutter build apk --release
+          AAPT=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | tail -1)
+          if "$AAPT" dump permissions build/app/outputs/flutter-apk/app-release.apk | grep -q 'android.permission.INTERNET'; then
+            echo "INTERNET permission found in the release APK" >&2; exit 1
+          fi
